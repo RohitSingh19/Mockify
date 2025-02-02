@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Mockify.API.Models;
+using Mockify.API.Services;
 using System.Reflection;
 
 namespace Mockify.API.Controllers
@@ -10,16 +11,18 @@ namespace Mockify.API.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
+        private ICategoryService _categoryService;
+        public CategoryController(ICategoryService categoryService) {
+        _categoryService = categoryService;
+        }
+
         [HttpGet("getCategories")]
         public IActionResult GetUsersMock()
         {
-            var data = from t in Assembly.GetExecutingAssembly().GetTypes()
-                       where t.IsClass && t.Namespace == "Mockify.API.Models"
-                       select t;
-            
-            List<string> categories = data.Select(x=> x.Name).ToList();
-
-            return Ok(categories);
+           var categories = _categoryService.GetAllCategories();
+           return Ok(categories);
         }
+
+
     }
 }
