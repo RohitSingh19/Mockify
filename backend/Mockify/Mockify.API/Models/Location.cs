@@ -1,6 +1,6 @@
 ﻿namespace Mockify.API.Models
 {
-    public class Locations
+    public class Location
     {
         public int LocationId { get; set; }
         public string Address { get; set; }
