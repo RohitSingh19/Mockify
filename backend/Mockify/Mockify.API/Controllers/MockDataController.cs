@@ -20,7 +20,42 @@ namespace Mockify.API.Controllers
         [HttpGet("getUserMock/{limit}")]
         public IActionResult GetUsersMock(int limit)
         {
-            return Ok(_mockDataService.getUserMockData());       
+            return Ok(_mockDataService.getUserMockData(limit));       
+        }
+
+        [HttpGet("getInternetMock/{limit}")]
+        public IActionResult GetInternetMock(int limit)
+        {
+            return Ok(_mockDataService.getInternetMockData(limit));
+        }
+
+        [HttpGet("getLocationMock/{limit}")]
+        public IActionResult GetLocationMock(int limit)
+        {
+            return Ok(_mockDataService.getLocaltionMockData(limit));
+        }
+
+        [HttpGet("getLoremMock/{limit}")]
+        public IActionResult GetLoremMock(int limit)
+        {
+            return Ok(_mockDataService.getLoremMockData(limit));
+        }
+
+        [HttpGet("getNotificationMock/{limit}")]
+        public IActionResult GetNotificationMock(int limit)
+        {
+            return Ok(_mockDataService.getNotificationMockData(limit));
+        }
+
+        [HttpGet("getPaymentMock/{limit}")]
+        public IActionResult GetPaymentMock(int limit)
+        {
+            return Ok(_mockDataService.getPaymentMockData(limit));
+        }
+        [HttpGet("getVehicleMock/{limit}")]
+        public IActionResult GetVehicleMock(int limit)
+        {
+            return Ok(_mockDataService.getVehicleMockData(limit));
         }
 
     }
