@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Space between the sections */
+    padding: 100px 20px; /* Horizontal padding for the container */
+  }
+  
+  .section {
+    border: 1px solid #ccc; /* Light gray border */
+    padding: 16px; /* Internal padding within each section */
+    width: 700px; /* Fixed width for each section */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow for depth */
+  }
+
+  
+  @media (max-width: 600px) {
+    .container {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .section {
+      width: 100%;
+    }
+  }
+  

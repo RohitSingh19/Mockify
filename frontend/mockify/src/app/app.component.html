@@ -1,12 +1,16 @@
-<mat-slide-toggle>Toggle me!</mat-slide-toggle>
-
-<h4>Basic native select</h4>
-<mat-form-field>
-  <mat-label>Cars</mat-label>
-  <select matNativeControl required>
-    <option value="volvo">Volvo</option>
-    <option value="saab">Saab</option>
-    <option value="mercedes">Mercedes</option>
-    <option value="audi">Audi</option>
-  </select>
-</mat-form-field>
+<div class="container">
+  <mat-card class="section">
+    <h3>Select category</h3>
+    <mat-form-field appearance="fill">
+      <mat-label>Select an option</mat-label>
+      <mat-select>
+        @for (category of categories; track category.category) {
+          <mat-option [value]="category.category">{{category.category}}</mat-option>
+        }        
+      </mat-select>
+    </mat-form-field>
+  </mat-card>
+  <mat-card class="section">
+    <!-- Content for the second section -->
+  </mat-card>
+</div>
