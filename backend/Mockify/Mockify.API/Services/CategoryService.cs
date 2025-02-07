@@ -17,7 +17,10 @@ namespace Mockify.API.Services
             {
                 categoryDTO = new GetCategoryDTO();
                 categoryDTO.Category = model.Name;
-                categoryDTO.Properties = model.GetProperties().Select(x=> x.Name).ToList();
+                categoryDTO.Properties = model.GetProperties().Select(x => new Property {
+                                         Name = x.Name,
+                                         Type = x.PropertyType.Name,
+                                         }).ToList();
                 categoryList.Add(categoryDTO);
             }
             return categoryList;

@@ -1,0 +1,51 @@
+<span>
+    <h3>Select category</h3>
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Select an option</mat-label>
+        <mat-select (selectionChange)="onCategorySelect($event)">
+            @for (category of categories; track category.category) {
+              <mat-option [value]="category.category">{{category.category}}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+    <p>Customize the attributes <mat-icon aria-hidden="false" fontIcon="info" mat-raised-button
+        matTooltip="You can edit below attributes to generate custom mock data" matTooltipPosition="above"></mat-icon>
+    </p>
+   
+    @if (proerties.length > 0) {
+        <table mat-table [dataSource]="proerties" class="mat-elevation-z8" >
+            <ng-container matColumnDef="No">
+                <th mat-header-cell *matHeaderCellDef> No. </th>
+                <td mat-cell *matCellDef="let element; let i = index"> {{i + 1}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Name">
+                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let element;"> {{element.name}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Type">
+                <th mat-header-cell *matHeaderCellDef> Type </th>
+                <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let element">  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item>
+                      <mat-icon>edit</mat-icon>
+                      <span>Edit</span>
+                    </button>
+                    <button mat-menu-item>
+                      <mat-icon>delete</mat-icon>
+                      <span>Remove</span>
+                    </button>
+                  </mat-menu> </td>
+            </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    }
+    
+</span>
+    
