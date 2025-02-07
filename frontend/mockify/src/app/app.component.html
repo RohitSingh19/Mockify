@@ -1,14 +1,6 @@
 <div class="container">
   <mat-card class="section">
-    <h3>Select category</h3>
-    <mat-form-field appearance="fill">
-      <mat-label>Select an option</mat-label>
-      <mat-select>
-        @for (category of categories; track category.category) {
-          <mat-option [value]="category.category">{{category.category}}</mat-option>
-        }        
-      </mat-select>
-    </mat-form-field>
+    <app-category></app-category>
   </mat-card>
   <mat-card class="section">
     <!-- Content for the second section -->

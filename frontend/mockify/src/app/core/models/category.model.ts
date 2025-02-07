@@ -1,4 +1,9 @@
 export interface Category {
     category: string;
-    properties: string[];
+    properties: Property[];
+}
+
+export interface Property {
+    name: string;
+    type: string;
 }
