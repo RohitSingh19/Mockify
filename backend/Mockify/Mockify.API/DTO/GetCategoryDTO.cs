@@ -1,8 +1,12 @@
-﻿namespace Mockify.API.DTO
+﻿using System.Globalization;
+
+namespace Mockify.API.DTO
 {
     public class GetCategoryDTO
     {
         public string Category { get; set; }
+
+        public string EndPoint { get; set; }
         public List<Property> Properties { get; set; }
     }
 

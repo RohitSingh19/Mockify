@@ -38,5 +38,9 @@ export class CategoryComponent {
   onCategorySelect(event: any): void {
     const selectedCategory = event.value;
     this.proerties = this.categories.find(x => x.category === selectedCategory)?.properties || [];  
+    const endpoint = this.categories.find(x => x.category === selectedCategory)?.endPoint || '';
+    this.httpClient.get(`https://localhost:7048/api/v1/${endpoint}/10`).subscribe((data) => {
+        console.log(data);
+    });
   }
 }

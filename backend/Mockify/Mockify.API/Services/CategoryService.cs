@@ -21,6 +21,7 @@ namespace Mockify.API.Services
                                          Name = x.Name,
                                          Type = x.PropertyType.Name,
                                          }).ToList();
+                categoryDTO.EndPoint = $"get{model.Name}Mock";
                 categoryList.Add(categoryDTO);
             }
             return categoryList;

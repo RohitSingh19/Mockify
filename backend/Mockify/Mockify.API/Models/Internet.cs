@@ -1,4 +1,6 @@
-﻿namespace Mockify.API.Models
+﻿using System.Globalization;
+
+namespace Mockify.API.Models
 {
     public class Internet
     {
