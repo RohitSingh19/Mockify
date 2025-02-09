@@ -1,0 +1,5 @@
+.json-container {
+    max-height: 570px; /* Adjust as needed */
+    overflow-y: auto;  /* Enables vertical scrolling */
+    display: block;     /* Ensures block-level behavior */
+}
