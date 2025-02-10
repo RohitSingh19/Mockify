@@ -12,10 +12,10 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IMockDataService, MockDataService>();
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(
-        builder => {
-            builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-        });
+    options.AddPolicy("MyCorsPolicy", builder =>
+    {
+        builder.WithOrigins("http://localhost:4200/").AllowAnyMethod().AllowAnyHeader();
+    });
 });
 var app = builder.Build();
 
@@ -30,7 +30,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.UseCors();
+app.UseCors("MyCorsPolicy");
 
 
 app.MapControllers();
