@@ -1,0 +1,44 @@
+headers = []
+
+[functions]
+
+[functions."*"]
+
+[[plugins]]
+origin = "default"
+package = "@netlify/angular-runtime"
+
+[plugins.inputs]
+
+[build]
+publish = "C:\\Users\\rohit.singh\\source\\repos\\Personal\\Mockify\\frontend\\mockify\\dist\\mockify\\browser"
+publishOrigin = "ui"
+commandOrigin = "ui"
+base = "C:\\Users\\rohit.singh\\source\\repos\\Personal\\Mockify\\frontend\\mockify"
+command = "npm run build"
+
+[build.environment]
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
