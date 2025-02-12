@@ -3,3 +3,15 @@
     overflow-y: auto;  /* Enables vertical scrolling */
     display: block;     /* Ensures block-level behavior */
 }
+
+.tools-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    width: 100%;
+    gap: 10px;
+}
+
+.tools-container .mat-icon {
+    cursor: pointer;
+}
