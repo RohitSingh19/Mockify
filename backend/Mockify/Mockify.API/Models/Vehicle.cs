@@ -7,10 +7,6 @@
         public string Type { get; set; }
         public string Fuel { get; set; }
         public string Manufacturer { get; set; }
-        public string GetEndPoint()
-        {
-            return "getVehicleMock";
-        }
     }
 
 }

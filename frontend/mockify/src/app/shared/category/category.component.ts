@@ -11,6 +11,9 @@ import {MatTableModule} from '@angular/material/table';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import { MockDataService } from '../../core/services/mock-data.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CustomCategoryComponent } from '../custom-category/custom-category.component';
+
 
 interface IHash {
   [key: string]: string;
@@ -34,7 +37,7 @@ export class CategoryComponent implements OnInit {
   categoryIcons: IHash = {};
   
 
-  constructor(private mockDataService: MockDataService) {
+  constructor(private mockDataService: MockDataService, private dialog: MatDialog) {
       this.initializeIcons();
   }
   ngOnInit(): void {
@@ -61,6 +64,13 @@ export class CategoryComponent implements OnInit {
 
   sendJsonForPreview(json: any): void {
     this.mockDataService.setData(json);
+  }
+
+  openDialog(): void {
+    this.dialog.open(CustomCategoryComponent, {
+      width: '400px',
+      data: {message: 'Add Custom Category'}
+    });
   }
 
   initializeIcons(): void {

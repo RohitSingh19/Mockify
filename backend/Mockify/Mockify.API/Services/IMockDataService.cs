@@ -4,12 +4,14 @@ namespace Mockify.API.Services
 {
     public interface IMockDataService
     {
-        List<User> getUserMockData(int limit);
-        List<Internet> getInternetMockData(int limit);
-        List<Location> getLocaltionMockData(int limit);
-        List<Lorem> getLoremMockData(int limit);
-        List<Payment> getPaymentMockData(int limit);
-        List<Vehicle> getVehicleMockData(int limit);
-        List<Notification> getNotificationMockData(int limit);
+        List<User> GetUserMockData(int limit);
+        List<Internet> GetInternetMockData(int limit);
+        List<Location> GetLocaltionMockData(int limit);
+        List<Lorem> GetLoremMockData(int limit);
+        List<Payment> GetPaymentMockData(int limit);
+        List<Vehicle> GetVehicleMockData(int limit);
+        List<Notification> GetNotificationMockData(int limit);
+        List<Randomizer> GetRandomizerMockData(int limit);
+        List<FileSystem> GetFileSystemMockData(int limit);
     }
 }

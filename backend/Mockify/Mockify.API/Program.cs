@@ -14,7 +14,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("MyCorsPolicy", builder =>
     {
-        builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+        builder.WithOrigins("http://localhost:4200", "https://app-mockify.netlify.app/", "https://app-mockify.netlify.app").AllowAnyMethod().AllowAnyHeader();
     });
 });
 var app = builder.Build();

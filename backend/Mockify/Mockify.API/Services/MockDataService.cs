@@ -1,11 +1,12 @@
 ﻿using Bogus;
 using Mockify.API.Models;
+using Randomizer = Mockify.API.Models.Randomizer;
 
 namespace Mockify.API.Services
 {
     public class MockDataService : IMockDataService
     {
-        public List<Internet> getInternetMockData(int limit)
+        public List<Internet> GetInternetMockData(int limit)
         {
             var fakeInternet = new Faker<Internet>()
                 .RuleFor(u => u.Avatar, f=> f.Internet.Avatar())
@@ -19,7 +20,7 @@ namespace Mockify.API.Services
             return fakeInternet;
         }
 
-        public List<Location> getLocaltionMockData(int limit)
+        public List<Location> GetLocaltionMockData(int limit)
         {
             var fakeLocation = new Faker<Location>()
                 .RuleFor(u => u.LocationId, f => f.Random.Number(1,limit))
@@ -34,7 +35,7 @@ namespace Mockify.API.Services
             return fakeLocation;
         }
 
-        public List<Lorem> getLoremMockData(int limit)
+        public List<Lorem> GetLoremMockData(int limit)
         {
             var fakeLorem = new Faker<Lorem>()
                .RuleFor(u => u.Word, f => f.Lorem.Word())
@@ -47,7 +48,7 @@ namespace Mockify.API.Services
             return fakeLorem;
         }
 
-        public List<Notification> getNotificationMockData(int limit)
+        public List<Notification> GetNotificationMockData(int limit)
         {
             var fakeNotification = new Faker<Notification>()
                .RuleFor(u => u.NotificationId, f => f.Random.Number(1, limit))
@@ -59,7 +60,7 @@ namespace Mockify.API.Services
             return fakeNotification;
         }
 
-        public List<Payment> getPaymentMockData(int limit)
+        public List<Payment> GetPaymentMockData(int limit)
         {
             var fakePayment = new Faker<Payment>()
                .RuleFor(u => u.PaymentId, f => f.Random.Number(1, limit))
@@ -71,7 +72,37 @@ namespace Mockify.API.Services
             return fakePayment;
         }
 
-        public List<User> getUserMockData(int limit)
+        public List<Randomizer> GetRandomizerMockData(int limit)
+        {
+            var fakeRandomizerMock = new Faker<Randomizer>()
+                   .RuleFor(u => u.Word, f => f.Random.Word())
+                   .RuleFor(u => u.Even, f => f.Random.Even(0,100000))
+                   .RuleFor(u => u.Odd, f => f.Random.Odd(1, 100001))
+                   .RuleFor(u => u.Double, f => f.Random.Double(1, limit))
+                   .RuleFor(u => u.Decimal, f => f.Random.Decimal(1, limit))
+                   .RuleFor(u => u.Word, f => f.Random.Word())
+                   .RuleFor(u => u.Boolean, f => f.Random.Bool())
+                   .RuleFor(u => u.Hash, f => f.Random.Hash())
+                   .RuleFor(u => u.Guid, f => f.Random.Guid().ToString())
+                   .Generate(limit);
+
+            return fakeRandomizerMock;
+        }
+
+        public List<FileSystem> GetFileSystemMockData(int limit)
+        {
+            var fakeFileSystemMock = new Faker<FileSystem>()
+                .RuleFor(u => u.FilePath, f => f.System.FilePath())
+                .RuleFor(u => u.DirectoryPath, f => f.System.DirectoryPath())
+                .RuleFor(u => u.FileExtention, f => f.System.FileExt())
+                .RuleFor(u => u.FileName, f => f.System.FileName())
+                .RuleFor(u => u.FileType, f => f.System.FileType())
+                .Generate(limit);
+
+            return fakeFileSystemMock;
+        }
+
+        public List<User> GetUserMockData(int limit)
         {
             var fakeUser = new Faker<User>(locale: "en_IND")
             .RuleFor(u => u.Id, f => f.Random.Number(1, limit))
@@ -83,7 +114,7 @@ namespace Mockify.API.Services
             return fakeUser;
         }
 
-        public List<Vehicle> getVehicleMockData(int limit)
+        public List<Vehicle> GetVehicleMockData(int limit)
         {
             var fakeVehicle = new Faker<Vehicle>()
                .RuleFor(u => u.VehicleId, f => f.Random.Number(1, limit))
