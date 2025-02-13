@@ -46,11 +46,25 @@ export class CategoryComponent implements OnInit {
           category.icon = this.categoryIcons[category.category];
        });
       this.categories = data;
+      this.pushCustomCategory();
   });
+  }
+
+  pushCustomCategory() {
+    this.categories.push({
+      category: 'Custom',
+      properties: [],
+      icon: this.categoryIcons['Custom'],
+      endPoint: ''
+    });
   }
 
   onCategorySelect(event: any): void {
     const selectedCategory = event.value;
+    if(selectedCategory === 'Custom') { 
+      this.openDialog();
+      return;
+    }
     this.proerties = this.categories.find(x => x.category === selectedCategory)?.properties || [];  
     const endpoint = this.categories.find(x => x.category === selectedCategory)?.endPoint || '';
     this.getMockDataForSelectedCategory(endpoint);
@@ -81,5 +95,8 @@ export class CategoryComponent implements OnInit {
     this.categoryIcons['Payment'] = 'receipt_long';
     this.categoryIcons['User'] = 'person';
     this.categoryIcons['Vehicle'] = 'directions_car';
+    this.categoryIcons['FileSystem'] = 'save';
+    this.categoryIcons['Randomizer'] = 'shuffle';
+    this.categoryIcons['Custom'] = 'settings';
   }
 }

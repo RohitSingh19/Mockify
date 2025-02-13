@@ -2,8 +2,8 @@
     <h3>Preview mock data</h3>
     @if (mockJsonData.length > 0) {
     <div class="tools-container">
-        <mat-icon aria-hidden="false" (click)="copyToClipboard()" fontIcon="content_copy"></mat-icon>
-        <mat-icon aria-hidden="false" (click)="downloadJson()" fontIcon="download"></mat-icon>
+        <mat-icon aria-hidden="false" title="copy JSON data" (click)="copyToClipboard()" fontIcon="content_copy"></mat-icon>
+        <mat-icon aria-hidden="false" title="donwload JSON data" (click)="downloadJson()" fontIcon="download"></mat-icon>
     </div>
 
     <div class="json-container">
