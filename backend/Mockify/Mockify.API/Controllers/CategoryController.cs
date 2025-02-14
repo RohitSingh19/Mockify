@@ -20,6 +20,11 @@ namespace Mockify.API.Controllers
            return Ok(_categoryService.GetAllCategories());
         }
 
+        [HttpGet("getCustomMockModel")]
+        public IActionResult GetCustomMock()
+        {
+            return Ok(_categoryService.GetCustomMockModel());
+        }
 
     }
 }

@@ -8,4 +8,6 @@ export interface Category {
 export interface Property {
     name: string;
     type: string;
+    description: string;
+    label: string;
 }

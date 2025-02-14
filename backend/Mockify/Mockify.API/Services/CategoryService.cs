@@ -1,4 +1,7 @@
 ﻿using Mockify.API.DTO;
+using Mockify.API.Helper;
+using Mockify.API.Models.Custom;
+using System.ComponentModel;
 using System.Reflection;
 
 namespace Mockify.API.Services
@@ -27,5 +30,26 @@ namespace Mockify.API.Services
             return categoryList;
         }
 
+        public GetCategoryDTO GetCustomMockModel()
+        {
+            var customAttributeModel = (from t in Assembly.GetExecutingAssembly().GetTypes()
+                         where t.IsClass && t.Namespace == "Mockify.API.Models.Custom"
+                         select t).FirstOrDefault();
+            
+            if (customAttributeModel == null) { return null; }
+
+            GetCategoryDTO categoryDTO = new();
+
+            categoryDTO.Category = customAttributeModel.Name;
+            categoryDTO.Properties = customAttributeModel.GetProperties().Select(x => new Property
+            {
+                Name = x.Name,
+                Type = x.PropertyType.Name,
+                Label = customAttributeModel.GetProperty(x.Name).GetCustomAttribute<LabelAttribute>().Text,
+                Description = customAttributeModel.GetProperty(x.Name).GetCustomAttribute<DescriptionAttribute>().Description
+            }).ToList();
+            
+            return categoryDTO;
+        }
     }
 }

@@ -82,7 +82,8 @@ export class CategoryComponent implements OnInit {
 
   openDialog(): void {
     this.dialog.open(CustomCategoryComponent, {
-      width: '400px',
+      width: '800px',
+      height: '600px',
       data: {message: 'Add Custom Category'}
     });
   }
