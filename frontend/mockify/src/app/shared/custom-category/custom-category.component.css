@@ -4,3 +4,20 @@
 .title {
     font-weight: 400;
 }
+
+.example-additional-selection {
+    opacity: 0.75;
+    font-size: 0.75em;
+    line-height: 1;
+}
+
+.full-width {
+    width: 100%;
+}
+
+
+.category-description {
+    font-size: 0.75em;
+    line-height: 1;
+    color: #005cbb
+}
