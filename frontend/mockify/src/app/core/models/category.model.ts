@@ -10,4 +10,6 @@ export interface Property {
     type: string;
     description: string;
     label: string;
+    isRandomData: boolean;
+    isVisible: boolean;
 }
