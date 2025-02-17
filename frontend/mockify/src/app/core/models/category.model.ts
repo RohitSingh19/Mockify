@@ -12,4 +12,14 @@ export interface Property {
     label: string;
     isRandomData: boolean;
     isVisible: boolean;
+    CustomDataValue: string;
+}
+
+export interface CustomMockDataRequest {
+    items: CustomCategoryRequestItem[];
+}
+
+export interface CustomCategoryRequestItem {
+    filedName: string;
+    customValue: string | null;
 }
