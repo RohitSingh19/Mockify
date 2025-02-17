@@ -1,19 +1,21 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogContent } from '@angular/material/dialog';
 import { MockDataService } from '../../core/services/mock-data.service';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { MatRadioButton } from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { Category, Property } from '../../core/models/category.model';
+import { Category, CustomMockDataRequest, Property } from '../../core/models/category.model';
 import {MatTableModule} from '@angular/material/table';
 import { CommonModule } from '@angular/common';
+import { MatInputModule } from '@angular/material/input'
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
+
 
 
 @Component({
   selector: 'app-custom-category',
   standalone: true,
-  imports: [CommonModule,MatRadioButton, MatDialogContent,MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, MatTableModule],
+  imports: [NgxJsonViewerModule, MatInputModule,CommonModule, MatDialogContent,MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, MatTableModule],
   templateUrl: './custom-category.component.html',
   styleUrl: './custom-category.component.css'
 })
@@ -23,9 +25,10 @@ export class CustomCategoryComponent implements OnInit {
   properties:  Property[] = [];
   customCategoryForm = new FormControl('');
   selectedProperties: Property[] = [];
-  displayedColumns: string[] = ['Name', 'Type', 'RandomData', 'RandomDataValue'];
+  displayedColumns: string[] = ['Name', 'Type', 'CustomDataValue'];
+  customMockDataRequest: CustomMockDataRequest = { items: [] };
   constructor(public dialogRef: MatDialogRef<CustomCategoryComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
-             private mockDataService: MockDataService) {
+             private mockDataService: MockDataService, private cdr: ChangeDetectorRef) {
     
   }
 
@@ -40,7 +43,8 @@ export class CustomCategoryComponent implements OnInit {
           type: property.type,
           isVisible: false,
           isRandomData: false,
-          description: property.description
+          description: property.description,
+          CustomDataValue: ''
         })
 
       });
@@ -68,8 +72,16 @@ export class CustomCategoryComponent implements OnInit {
       }
     }
   }
-}
 
+  generateCustomMockData() {
+    this.properties.forEach((property: Property) => {
+      if(property.isVisible) {
+        this.customMockDataRequest.items.push({ filedName: property.name, customValue: property.CustomDataValue.length > 0 ? property.CustomDataValue : null })
+      };
+    });
+    console.log(this.customMockDataRequest);
+  }
+}
 
 
 

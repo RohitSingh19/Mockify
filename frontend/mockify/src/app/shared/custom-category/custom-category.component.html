@@ -19,6 +19,7 @@
         }
       </mat-select>
     </mat-form-field>
+    <ngx-json-viewer [json]="displayedColumns"></ngx-json-viewer>
 
     @if (customCategoryForm.value && customCategoryForm.value.length > 0) {
     <div class="table-container">
@@ -31,24 +32,14 @@
           <th mat-header-cell *matHeaderCellDef> Type </th>
           <td mat-cell *matCellDef="let element;"> {{element.type}} </td>
         </ng-container>
-        <ng-container matColumnDef="RandomData">
-          <th mat-header-cell *matHeaderCellDef> Want Random Data? </th>
+        <ng-container matColumnDef="CustomDataValue">
+          <th mat-header-cell *matHeaderCellDef> Add your custom data
+            <span class="category-description">(leave this empty to generate random data)</span> </th>
           <td mat-cell *matCellDef="let element;">
-            <mat-radio-group [(ngModel)]="element.isRandomData" ngDefaultControl>
-              <mat-radio-button [value]="true">Yes</mat-radio-button>
-              <mat-radio-button [value]="false">No</mat-radio-button>
-            </mat-radio-group>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="RandomDataValue">
-          <th mat-header-cell *matHeaderCellDef> Value </th>
-          <td mat-cell *matCellDef="let element;">
-           <div *ngIf="element.isRandomData">
-            <mat-form-field>
-              <mat-label>Value</mat-label>
-              <input matInput placeholder="Value" [(ngModel)]="element.randomDataValue">
+            <mat-form-field class="full-width">
+              <mat-label>Value will be replaced with random data</mat-label>
+              <input matInput placeholder="Value" [(ngModel)]="element.CustomDataValue">
             </mat-form-field>
-           </div>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -57,7 +48,10 @@
     </div>
     }
 
-
+    <div>
+      <button mat-raised-button color="primary" (click)="generateCustomMockData()">Generate Mock Data</button>
+      <button mat-raised-button color="warn">Clear</button>
+    </div>
   </mat-dialog-content>
 </div>
 

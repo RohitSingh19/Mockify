@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Mockify.API.Helper;
 using Mockify.API.Services;
 
 namespace Mockify.API.Controllers
@@ -67,6 +68,12 @@ namespace Mockify.API.Controllers
         public IActionResult GetFileSystemMock(int limit)
         {
             return Ok(_mockDataService.GetFileSystemMockData(limit));
+        }
+
+        [HttpGet("getCustomMock/{limit}")]
+        public IActionResult GetCustomMock([FromBody] CustomCategoryRequestItems customCategoryRequestItems, int limit)
+        {
+            return Ok();
         }
 
     }
