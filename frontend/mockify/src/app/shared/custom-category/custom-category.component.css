@@ -1,5 +1,34 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Space between the sections */
+    padding: 10px 20px; /* Horizontal padding for the container */
+  }
+  
+  .section {
+    /* border: 1px solid #ccc;  */
+    padding: 1px; /* Internal padding within each section */
+    width: 700px; /* Fixed width for each section */
+    /* box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);  */
+    height: 500px;
+  }
+
+  
+  @media (max-width: 600px) {
+    .container {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .section {
+      width: 100%;
+    }
+  }
+  
+
 .custom-mock-data-container {
-    padding: 5%;
+    /* padding: 5%; */
 }
 .title {
     font-weight: 400;
@@ -21,3 +50,9 @@
     line-height: 1;
     color: #005cbb
 }
+
+.json-editor {
+    margin-top: 3%;
+}
+
+
