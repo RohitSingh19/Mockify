@@ -10,9 +10,13 @@ export interface Property {
     type: string;
     description: string;
     label: string;
-    isRandomData: boolean;
-    isVisible: boolean;
-    CustomDataValue: string;
+    value: string;
+}
+
+export interface JsonEditorModel {
+    name: string;
+    type: string;
+    value: any;
 }
 
 export interface CustomMockDataRequest {
