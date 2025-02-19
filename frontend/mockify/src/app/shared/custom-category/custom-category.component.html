@@ -33,6 +33,6 @@
     </div>
   </div>
   <div class="section json-editor">
-      <nu-monaco-editor [ngModel]="jsonData" [options]="editorOptions"></nu-monaco-editor>
+      <nu-monaco-editor style="height: 100%; width: 100%; overflow-x: scroll;" [ngModel]="jsonData" [options]="editorOptions" (ngModelChange)="onChange($event)"></nu-monaco-editor>
   </div>
 </div>

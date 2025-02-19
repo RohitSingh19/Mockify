@@ -11,6 +11,7 @@ export interface Property {
     description: string;
     label: string;
     value: string;
+    isVisible: boolean;
 }
 
 export interface JsonEditorModel {
