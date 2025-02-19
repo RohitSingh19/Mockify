@@ -50,6 +50,7 @@ export class CustomCategoryComponent implements OnInit {
           type: property.type,
           description: property.description,
           value: property.value,
+          isVisible: false,
         })
       });
     });
@@ -60,7 +61,7 @@ export class CustomCategoryComponent implements OnInit {
     this.jsonData = JSON.stringify({}, null, 2);
   
     this.editorOptions = {
-      theme: 'vs-dark',
+      theme: 'hc-light',
       language: 'json', 
       automaticLayout: true,
     };
@@ -69,28 +70,47 @@ export class CustomCategoryComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  getSelectedProperties(propertyNames: string[]) {
+      return this.properties.filter((property: Property) => propertyNames.includes(property.name));
+  }
+
+  refreshSelectedProperties() {
+
+  }
+
   onCategorySelect(event: any) {
     const selectedPropertiesName = [...event.value];
-    this.selectedProperties = this.properties.filter((property: Property) => selectedPropertiesName.includes(property.name));
-    this.selectedProperties.forEach((property: Property) => {
-      this.jsonEditorModel.push({
-        name: property.name,
-        type: property.type,
-        value: property.value
-      })
+
+    this.properties.forEach((property: Property) => {
+      property.isVisible = selectedPropertiesName.includes(property.name);
     });
-    this.jsonData = '';
+    this.showVisiblePropertiesInJsonEditor(this.properties);
+  }
+  onChange(event: any) {
+    this.jsonEditorModel = JSON.parse(event);
+  }
+  showVisiblePropertiesInJsonEditor(properties: Property[]) {
+    properties.forEach((property: Property) => 
+    {
+      if(property.isVisible && !this.jsonEditorModel.find((model: JsonEditorModel) => model.name === property.name)){
+        this.jsonEditorModel.push({
+          name: property.name,
+          type: property.type,
+          value: property.value
+        });
+      } else if(!property.isVisible && this.jsonEditorModel.find((model: JsonEditorModel) => model.name === property.name)) 
+        {
+        const existingPropertyFromJsonEditorModel = this.jsonEditorModel.find((model: JsonEditorModel) => model.name === property.name);
+        //remove the existing json node from model
+        if (existingPropertyFromJsonEditorModel) {
+          this.jsonEditorModel = this.jsonEditorModel.filter((model: JsonEditorModel) => model.name !== existingPropertyFromJsonEditorModel.name);
+         }
+        }
+    });
     this.jsonData = JSON.stringify(this.jsonEditorModel, null, 2);
-    
   }
 
   generateCustomMockData() {
-    // this.properties.forEach((property: Property) => {
-    //   if(property.isVisible) {
-    //     this.customMockDataRequest.items.push({ filedName: property.name, customValue: property.CustomDataValue.length > 0 ? property.CustomDataValue : null })
-    //   };
-    // });
-    // console.log(this.customMockDataRequest);
   }
 
   model: NgxJsonViewerModule = {
