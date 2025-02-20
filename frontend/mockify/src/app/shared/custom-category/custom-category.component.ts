@@ -11,8 +11,6 @@ import { MatInputModule } from '@angular/material/input'
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import {
   NuMonacoEditorComponent,  
-  NuMonacoEditorEvent,
-  NuMonacoEditorModel,
 } from '@ng-util/monaco-editor';
 
 
@@ -35,9 +33,7 @@ export class CustomCategoryComponent implements OnInit {
   
   constructor(public dialogRef: MatDialogRef<CustomCategoryComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
              private mockDataService: MockDataService, private cdr: ChangeDetectorRef) 
-             {
-    
-  }
+             {}
 
 
   ngOnInit(): void {
@@ -66,6 +62,7 @@ export class CustomCategoryComponent implements OnInit {
       automaticLayout: true,
     };
   }
+
   closeDialog(): void {
     this.dialogRef.close();
   }
@@ -95,8 +92,8 @@ export class CustomCategoryComponent implements OnInit {
       if(property.isVisible && !this.jsonEditorModel.find((model: JsonEditorModel) => model.name === property.name)){
         this.jsonEditorModel.push({
           name: property.name,
-          type: property.type,
-          value: property.value
+          value: '',
+          label: property.label,
         });
       } else if(!property.isVisible && this.jsonEditorModel.find((model: JsonEditorModel) => model.name === property.name)) 
         {
@@ -110,11 +107,17 @@ export class CustomCategoryComponent implements OnInit {
     this.jsonData = JSON.stringify(this.jsonEditorModel, null, 2);
   }
 
-  generateCustomMockData() {
-  }
+  generateMockData() {
+    this.customMockDataRequest.items = this.jsonEditorModel.map((model: JsonEditorModel) => {
+      return {
+        filedName: model.name,
+        customValue: model.value,
+      };
+    });
 
-  model: NgxJsonViewerModule = {
-
+    this.mockDataService.generateMockDataForCustomJson(this.customMockDataRequest).subscribe((data: any) => {
+      console.log(data);
+    });
   }
 }
 

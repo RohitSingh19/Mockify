@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
-import { Category } from "../models/category.model";
+import { Category, CustomMockDataRequest } from "../models/category.model";
 import { HttpClient } from "@angular/common/http";
 
 @Injectable({  
@@ -29,5 +29,9 @@ import { HttpClient } from "@angular/common/http";
 
     getMockDataForSelectedCategory(categoryAPIEndpoint: string): Observable<any> | any {        
         return this.httpClient.get<any>(`${environment.apiUrl}${categoryAPIEndpoint}/10`);
+    }
+
+    generateMockDataForCustomJson(customMockDataRequest: CustomMockDataRequest): Observable<any> {
+        return this.httpClient.post<CustomMockDataRequest>(`${environment.apiUrl}getCustomMock/10`, customMockDataRequest);
     }
  }

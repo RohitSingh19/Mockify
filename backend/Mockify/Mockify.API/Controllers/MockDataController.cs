@@ -70,10 +70,10 @@ namespace Mockify.API.Controllers
             return Ok(_mockDataService.GetFileSystemMockData(limit));
         }
 
-        [HttpGet("getCustomMock/{limit}")]
+        [HttpPost("getCustomMock/{limit}")]
         public IActionResult GetCustomMock([FromBody] CustomCategoryRequestItems customCategoryRequestItems, int limit)
         {
-            return Ok();
+            return Ok(_mockDataService.GenerateCustomMockJson(limit, customCategoryRequestItems));
         }
 
     }
