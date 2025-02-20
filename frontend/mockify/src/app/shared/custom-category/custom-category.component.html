@@ -30,6 +30,11 @@
           <li>2️⃣ Leave customDataValue blank to auto-generate mock data for you.</li>
         </ul>
       </div>
+      @if (customCategoryForm.value?.length ) {
+        <div>
+          <button mat-raised-button color="primary" (click)="generateMockData()">Generate Mock Data</button>
+        </div>
+      }
     </div>
   </div>
   <div class="section json-editor">

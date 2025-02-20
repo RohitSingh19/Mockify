@@ -1,4 +1,6 @@
-﻿using Mockify.API.Models;
+﻿using Mockify.API.Helper;
+using Mockify.API.Models;
+using Mockify.API.Models.Custom;
 
 namespace Mockify.API.Services
 {
@@ -13,5 +15,8 @@ namespace Mockify.API.Services
         List<Notification> GetNotificationMockData(int limit);
         List<Randomizer> GetRandomizerMockData(int limit);
         List<FileSystem> GetFileSystemMockData(int limit);
+
+        List<CustomMockModel> GenerateCustomMockJson(int limit, CustomCategoryRequestItems customCategoryRequestItems);
+
     }
 }
