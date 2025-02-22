@@ -129,139 +129,144 @@ namespace Mockify.API.Services
             return fakeVehicle;
         }
 
-        public List<CustomMockModel> GenerateCustomMockJson(int limit, CustomCategoryRequestItems customCategoryRequestItems)
+        public string GenerateCustomMockJson(int limit, CustomCategoryRequestItems customCategoryRequestItems)
         {
             var customMockData = new Faker<CustomMockModel>();
+            List<string> requestObj = new();  
             foreach (var item in customCategoryRequestItems.Items)
             {
+                //Type type = ((object)item.CustomValue).GetType(); 
                 var customValue = item.CustomValue;
-                switch(item.FieldName)
+                switch (item.FieldName.ToLower())
                 {
-                    
-                    case "Number": 
+                    case "number": 
                     {
-                            if (customValue != null)
-                                customMockData.RuleFor(u => u.Number, f => f.Random.Number(1, limit));
-                            else
-                                customMockData.RuleFor(u => u.Number, item.CustomValue);
+                            int customNumber = int.MinValue;
+                            int.TryParse(customValue, out customNumber);    
+                            customMockData.RuleFor(u => u.Number, f => (customNumber == 0) ? f.Random.Number(1, limit) : customNumber);
+                            requestObj.Add("number");
                             break;
                     }
-                    case "UserName":
+                    case "username":
                     {
-                            if (customValue != null)
-                                customMockData.RuleFor(u => u.UserName, f => f.Internet.UserName());
-                            else
-                                customMockData.RuleFor(u => u.UserName, item.CustomValue);
-                            break;
-                     }
-                    case "Gender":
-                    {
-                            if (customValue != null)
-                                customMockData.RuleFor(u => u.Gender, f => f.Person.Gender.ToString());
-                            else
-                                customMockData.RuleFor(u => u.Gender, item.CustomValue);
+                            customMockData.RuleFor(u => u.UserName, f => (customValue == null) ? f.Internet.UserName() : customValue);
+                            requestObj.Add("username");
                             break;
                     }
-                    case "Password":
+                    case "gender":
+                    {
+                            customMockData.RuleFor(u => u.Gender, f => (customValue == null) ? f.Person.Gender.ToString() : customValue);
+                            requestObj.Add("gender");
+                            break;
+                    }
+                    case "password":
                         {
-                            if (customValue != null)
-                                customMockData.RuleFor(u => u.Password, f => f.Internet.Password());
-                            else
-                                customMockData.RuleFor(u => u.Password, item.CustomValue);
+                            customMockData.RuleFor(u => u.Password, f => (customValue == null) ? f.Internet.Password() : customValue);
                             break;
                         }
-                    case "Email":
+                    case "email":
                         {
-                            if (customValue != null)
-                                customMockData.RuleFor(u => u.Email, f => f.Internet.Email());
-                            else
-                                customMockData.RuleFor(u => u.Email, item.CustomValue);
+                            customMockData.RuleFor(u => u.Email, f => (customValue == null) ? f.Internet.Email() : customValue);
                             break;
                         }
-                    case "DateTime":
+                    case "datetime":
                         {
-                            if (customValue != null)
-                                customMockData.RuleFor(u => u.DateTime, f => f.Date.Future());
-                            else
-                                customMockData.RuleFor(u => u.DateTime, item.CustomValue);
+                            DateTime dateTime = DateTime.Now;
+                            DateTime.TryParse(customValue, out dateTime);   
+                           customMockData.RuleFor(u => u.DateTime, f => (dateTime == DateTime.Now) ? f.Date.Future() : dateTime);
+                           break;
+                        }
+                    case "address":
+                        {
+                            customMockData.RuleFor(u => u.Address, f => (customValue == null) ? f.Address.FullAddress() : customValue);
                             break;
                         }
-                    case "Address":
+                    case "city":
                         {
-                            if (customValue != null)
-                                customMockData.RuleFor(u => u.Address, f => f.Address.FullAddress());
-                            else
-                                customMockData.RuleFor(u => u.Address, item.CustomValue);
+                            
+                            customMockData.RuleFor(u => u.City, f => (customValue == null) ? f.Address.City() : customValue); 
                             break;
                         }
-                    case "City":
-                        {
-                            if (customValue != null)
-                                customMockData.RuleFor(u => u.City, f => f.Address.City());
-                            else
-                                customMockData.RuleFor(u => u.City, item.CustomValue);
+                    case "country":
+                        {   
+                            customMockData.RuleFor(u => u.Country, f => (customValue == null) ? f.Address.Country() : customValue);
                             break;
                         }
-                    case "Country":
-                        {
-                            if (customValue != null)
-                                customMockData.RuleFor(u => u.Country, f => f.Address.Country());
-                            else
-                                customMockData.RuleFor(u => u.Country, item.CustomValue);
+                    case "zipcode":
+                        {   
+                            customMockData.RuleFor(u => u.ZipCode, f => (customValue == null) ? f.Address.ZipCode() : customValue);
                             break;
                         }
-                    case "ZipCode":
-                        {
-                            if (customValue != null)
-                                customMockData.RuleFor(u => u.ZipCode, f => f.Address.ZipCode());
-                            else
-                                customMockData.RuleFor(u => u.ZipCode, item.CustomValue);
+                    case "latitude":
+                        {   
+                            double customDouble = Double.MinValue;
+                            Double.TryParse(customValue, out customDouble);     
+                            customMockData.RuleFor(u => u.Latitude, f => (customDouble == Double.MinValue) ? f.Address.Latitude(-180, 180) : customDouble);
                             break;
                         }
-                    case "Latitude":
+                    case "longitude":
                         {
-                            if (customValue != null)
-                                customMockData.RuleFor(u => u.Latitude, f => f.Address.Latitude(-180, 180));
-                            else
-                                customMockData.RuleFor(u => u.Latitude, item.CustomValue);
+                            double customDouble = Double.MinValue;
+                            Double.TryParse(customValue, out customDouble);
+                            customMockData.RuleFor(u => u.Longitude, f => (customDouble == Double.MinValue) ? f.Address.Longitude(-180, 180) : customDouble);
                             break;
                         }
-                    case "Longitude":
+                    case "boolean":
                         {
-                            if (customValue != null)
-                                customMockData.RuleFor(u => u.Longitude, f => f.Address.Longitude(-180, 180));
-                            else
-                                customMockData.RuleFor(u => u.Longitude, item.CustomValue);
+                            bool customBool = false;
+                            Boolean.TryParse(customValue, out customBool);
+                            customMockData.RuleFor(u => u.Boolean, f => (customValue == null) ? f.Random.Bool() : customBool);
                             break;
                         }
-                    case "Boolean":
-                        {
-                            if (customValue != null)
-                                customMockData.RuleFor(u => u.Boolean, f => f.Random.Bool());
-                            else
-                                customMockData.RuleFor(u => u.Boolean, item.CustomValue);
+                    case "hash":
+                        {   
+                            customMockData.RuleFor(u => u.Hash, f => (customValue == null) ? f.Random.Hash() : customValue);
                             break;
                         }
-                    case "Hash":
-                        {
-                            if (customValue != null)
-                                customMockData.RuleFor(u => u.Hash, f => f.Random.Hash());
-                            else
-                                customMockData.RuleFor(u => u.Hash, item.CustomValue);
-                            break;
-                        }
-                    case "Guid":
-                        {
-                            if (customValue != null)
-                                customMockData.RuleFor(u => u.Guid, f => f.Random.Guid());
-                            else
-                                customMockData.RuleFor(u => u.Guid, item.CustomValue);
+                    case "guid":
+                        {   
+                            Guid guid = Guid.NewGuid();
+                            Guid.TryParse(customValue, out guid);
+                            customMockData.RuleFor(u => u.Guid, f => (customValue == null) ? f.Random.Guid() : guid);
                             break;
                         }
                 }        
             }
-            return customMockData.Generate(limit).ToList();
+                        
+            return filter(customMockData.Generate(limit).ToList(), requestObj);
         }
 
+        private string filter(List<CustomMockModel> response, List<string> request)
+        {
+            var result = response.Select(u => CreateSelectiveObject(u, request));
+            return System.Text.Json.JsonSerializer.Serialize(result);
+            
+        }
+        public object CreateSelectiveObject(CustomMockModel customMock, List<string> fields)
+        {
+            var dict = new Dictionary<string, object>();
+
+            foreach (var field in fields)
+            {
+                switch (field.ToLower())
+                {
+                    case "username":
+                        dict["username"] = customMock.UserName;
+                        break;
+                    case "number":
+                        dict["number"] = customMock.Number;
+                        break;
+                    case "gender":
+                        dict["gender"] = customMock.Gender;
+                        break;
+                        // Add more cases for additional fields
+                }
+            }
+
+            return new System.Dynamic.ExpandoObject() as IDictionary<string, object> switch
+            {
+                var expando => expando.Concat(dict).ToDictionary(kvp => kvp.Key, kvp => kvp.Value)
+            };
+        }
     }
 }

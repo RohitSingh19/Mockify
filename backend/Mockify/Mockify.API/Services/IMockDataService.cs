@@ -16,7 +16,7 @@ namespace Mockify.API.Services
         List<Randomizer> GetRandomizerMockData(int limit);
         List<FileSystem> GetFileSystemMockData(int limit);
 
-        List<CustomMockModel> GenerateCustomMockJson(int limit, CustomCategoryRequestItems customCategoryRequestItems);
+        string GenerateCustomMockJson(int limit, CustomCategoryRequestItems customCategoryRequestItems);
 
     }
 }
