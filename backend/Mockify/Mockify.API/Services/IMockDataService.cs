@@ -15,7 +15,6 @@ namespace Mockify.API.Services
         List<Notification> GetNotificationMockData(int limit);
         List<Randomizer> GetRandomizerMockData(int limit);
         List<FileSystem> GetFileSystemMockData(int limit);
-
         string GenerateCustomMockJson(int limit, CustomCategoryRequestItems customCategoryRequestItems);
 
     }

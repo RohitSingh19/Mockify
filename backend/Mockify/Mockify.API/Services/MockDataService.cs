@@ -1,8 +1,12 @@
 ﻿using Bogus;
+using Bogus.DataSets;
 using Mockify.API.Helper;
 using Mockify.API.Models;
 using Mockify.API.Models.Custom;
+using Internet = Mockify.API.Models.Internet;
+using Lorem = Mockify.API.Models.Lorem;
 using Randomizer = Mockify.API.Models.Randomizer;
+using Vehicle = Mockify.API.Models.Vehicle;
 
 namespace Mockify.API.Services
 {
@@ -149,52 +153,59 @@ namespace Mockify.API.Services
                     }
                     case "username":
                     {
-                            customMockData.RuleFor(u => u.UserName, f => (customValue == null) ? f.Internet.UserName() : customValue);
+                            customMockData.RuleFor(u => u.UserName, f => (customValue.Length == 0) ? f.Internet.UserName() : customValue);
                             requestObj.Add("username");
                             break;
                     }
                     case "gender":
                     {
-                            customMockData.RuleFor(u => u.Gender, f => (customValue == null) ? f.Person.Gender.ToString() : customValue);
+                            customMockData.RuleFor(u => u.Gender, f => (customValue.Length == 0) ? f.Person.Gender.ToString() : customValue);
                             requestObj.Add("gender");
                             break;
                     }
                     case "password":
                         {
-                            customMockData.RuleFor(u => u.Password, f => (customValue == null) ? f.Internet.Password() : customValue);
+                            customMockData.RuleFor(u => u.Password, f => (customValue.Length == 0) ? f.Internet.Password() : customValue);
+                            requestObj.Add("password");
                             break;
                         }
                     case "email":
                         {
-                            customMockData.RuleFor(u => u.Email, f => (customValue == null) ? f.Internet.Email() : customValue);
+                            customMockData.RuleFor(u => u.Email, f => (customValue.Length == 0) ? f.Internet.Email() : customValue);
+                            requestObj.Add("email");
                             break;
                         }
                     case "datetime":
                         {
                             DateTime dateTime = DateTime.Now;
                             DateTime.TryParse(customValue, out dateTime);   
-                           customMockData.RuleFor(u => u.DateTime, f => (dateTime == DateTime.Now) ? f.Date.Future() : dateTime);
-                           break;
+                            customMockData.RuleFor(u => u.DateTime, f => (dateTime == DateTime.Now) ? f.Date.Future() : dateTime);
+                            requestObj.Add("datetime");
+                            break;
                         }
                     case "address":
                         {
-                            customMockData.RuleFor(u => u.Address, f => (customValue == null) ? f.Address.FullAddress() : customValue);
+                            customMockData.RuleFor(u => u.Address, f => (customValue.Length == 0) ? f.Address.FullAddress() : customValue);
+                            requestObj.Add("address");
                             break;
                         }
                     case "city":
                         {
                             
-                            customMockData.RuleFor(u => u.City, f => (customValue == null) ? f.Address.City() : customValue); 
+                            customMockData.RuleFor(u => u.City, f => (customValue.Length == 0) ? f.Address.City() : customValue);
+                            requestObj.Add("city");
                             break;
                         }
                     case "country":
                         {   
-                            customMockData.RuleFor(u => u.Country, f => (customValue == null) ? f.Address.Country() : customValue);
+                            customMockData.RuleFor(u => u.Country, f => (customValue.Length == 0) ? f.Address.Country() : customValue);
+                            requestObj.Add("country");
                             break;
                         }
                     case "zipcode":
                         {   
-                            customMockData.RuleFor(u => u.ZipCode, f => (customValue == null) ? f.Address.ZipCode() : customValue);
+                            customMockData.RuleFor(u => u.ZipCode, f => (customValue.Length == 0) ? f.Address.ZipCode() : customValue);
+                            requestObj.Add("zipcode");
                             break;
                         }
                     case "latitude":
@@ -202,6 +213,7 @@ namespace Mockify.API.Services
                             double customDouble = Double.MinValue;
                             Double.TryParse(customValue, out customDouble);     
                             customMockData.RuleFor(u => u.Latitude, f => (customDouble == Double.MinValue) ? f.Address.Latitude(-180, 180) : customDouble);
+                            requestObj.Add("latitude");
                             break;
                         }
                     case "longitude":
@@ -209,25 +221,29 @@ namespace Mockify.API.Services
                             double customDouble = Double.MinValue;
                             Double.TryParse(customValue, out customDouble);
                             customMockData.RuleFor(u => u.Longitude, f => (customDouble == Double.MinValue) ? f.Address.Longitude(-180, 180) : customDouble);
+                            requestObj.Add("longitude");
                             break;
                         }
                     case "boolean":
                         {
                             bool customBool = false;
                             Boolean.TryParse(customValue, out customBool);
-                            customMockData.RuleFor(u => u.Boolean, f => (customValue == null) ? f.Random.Bool() : customBool);
+                            customMockData.RuleFor(u => u.Boolean, f => (customValue.Length == 0) ? f.Random.Bool() : customBool);
+                            requestObj.Add("boolean");
                             break;
                         }
                     case "hash":
                         {   
-                            customMockData.RuleFor(u => u.Hash, f => (customValue == null) ? f.Random.Hash() : customValue);
+                            customMockData.RuleFor(u => u.Hash, f => (customValue.Length == 0) ? f.Random.Hash() : customValue);
+                            requestObj.Add("hash");
                             break;
                         }
                     case "guid":
                         {   
                             Guid guid = Guid.NewGuid();
                             Guid.TryParse(customValue, out guid);
-                            customMockData.RuleFor(u => u.Guid, f => (customValue == null) ? f.Random.Guid() : guid);
+                            customMockData.RuleFor(u => u.Guid, f => (customValue.Length == 0) ? f.Random.Guid() : guid);
+                            requestObj.Add("guid");
                             break;
                         }
                 }        
@@ -242,7 +258,7 @@ namespace Mockify.API.Services
             return System.Text.Json.JsonSerializer.Serialize(result);
             
         }
-        public object CreateSelectiveObject(CustomMockModel customMock, List<string> fields)
+        private object CreateSelectiveObject(CustomMockModel customMock, List<string> fields)
         {
             var dict = new Dictionary<string, object>();
 
@@ -259,7 +275,43 @@ namespace Mockify.API.Services
                     case "gender":
                         dict["gender"] = customMock.Gender;
                         break;
-                        // Add more cases for additional fields
+                    case "password":
+                        dict["password"] = customMock.Password;
+                        break;
+                    case "email":
+                        dict["email"] = customMock.Email;
+                        break;
+                    case "datetime":
+                        dict["datetime"] = customMock.DateTime;
+                        break;
+                    case "address":
+                        dict["address"] = customMock.Address;
+                        break;
+                    case "city":
+                        dict["city"] = customMock.City;
+                        break;
+                    case "counrty":
+                        dict["counrty"] = customMock.Country;
+                        break;
+                    case "zipcode":
+                        dict["zipcode"] = customMock.ZipCode;
+                        break;
+                    case "latitude":
+                        dict["latitude"] = customMock.Latitude;
+                        break;
+                    case "longitude":
+                        dict["longitude"] = customMock.Longitude;
+                        break;
+                    case "boolean":
+                        dict["boolean"] = customMock.Boolean;
+                        break;
+                    case "hash":
+                        dict["hash"] = customMock.Hash;
+                        break;
+                    case "guid":
+                        dict["guid"] = customMock.Guid;
+                        break;
+
                 }
             }
 
@@ -268,5 +320,6 @@ namespace Mockify.API.Services
                 var expando => expando.Concat(dict).ToDictionary(kvp => kvp.Key, kvp => kvp.Value)
             };
         }
+
     }
 }
