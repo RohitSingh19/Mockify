@@ -25,6 +25,6 @@ export interface CustomMockDataRequest {
 }
 
 export interface CustomCategoryRequestItem {
-    filedName: string;
+    fieldName: string;
     customValue: string | null;
 }

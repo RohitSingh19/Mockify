@@ -23,21 +23,29 @@
             }
           </mat-select>
         </mat-form-field>
-       </mat-dialog-content>
-       <div>
+      </mat-dialog-content>
+      <div>
         <ul>
           <li>1️⃣ Modify the customDataValue property to add your own input to the mock data.</li>
           <li>2️⃣ Leave customDataValue blank to auto-generate mock data for you.</li>
         </ul>
       </div>
+
       @if (customCategoryForm.value?.length ) {
-        <div>
-          <button mat-raised-button color="primary" (click)="generateMockData()">Generate Mock Data</button>
-        </div>
+      <div class="custom-data-tools-container">
+        <button mat-raised-button color="primary generate-mock-data" (click)="generateMockData()">Generate Mock Data</button>
+        @if(customJsonResponse && customJsonResponse.length > 0) {
+          <div class="tools">
+            <mat-icon aria-hidden="false" title="copy JSON data" (click)="copyToClipboard()"fontIcon="content_copy"></mat-icon>
+            <mat-icon aria-hidden="false" title="donwload JSON data" (click)="downloadJson()" fontIcon="download"></mat-icon>
+          </div>        
+        }
+      </div>
       }
     </div>
   </div>
   <div class="section json-editor">
-      <nu-monaco-editor style="height: 100%; width: 100%; overflow-x: scroll;" [ngModel]="jsonData" [options]="editorOptions" (ngModelChange)="onChange($event)"></nu-monaco-editor>
+    <nu-monaco-editor style="height: 100%; width: 100%; overflow-x: scroll;" [ngModel]="jsonData"
+      [options]="editorOptions" (ngModelChange)="onChange($event)"></nu-monaco-editor>
   </div>
 </div>

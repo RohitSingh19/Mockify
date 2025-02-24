@@ -60,3 +60,20 @@
   height: 100%;
   width: 100%;
 }
+
+.custom-data-tools-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.custom-data-tools-container .tools {
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.custom-data-tools-container button {
+  margin-right: auto;
+}
