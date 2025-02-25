@@ -20,11 +20,11 @@ import { HttpClient } from "@angular/common/http";
     }
 
     getCategories(): Observable<Category[]> {
-        return this.httpClient.get<Category[]>(`${environment.apiUrl}getCategories`);
+        return this.httpClient.get<Category[]>(`${environment.apiUrl}categories`);
     }
 
     getCustomCategory(): Observable<Category> {
-        return this.httpClient.get<Category>(`${environment.apiUrl}getCustomMockModel`);
+        return this.httpClient.get<Category>(`${environment.apiUrl}customMockFields`);
     }
 
     getMockDataForSelectedCategory(categoryAPIEndpoint: string): Observable<any> | any {        

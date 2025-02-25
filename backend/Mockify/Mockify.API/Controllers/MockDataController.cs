@@ -5,7 +5,7 @@ using Mockify.API.Services;
 
 namespace Mockify.API.Controllers
 {
-    [Route("api/v1")]
+    [Route("api/v1/")]
     [EnableCors("MyCorsPolicy")]
     [ApiController]
     public class MockDataController : ControllerBase
@@ -16,61 +16,61 @@ namespace Mockify.API.Controllers
               _mockDataService = mockDataService;
         }
 
-        [HttpGet("getUserMock/{limit}")]
+        [HttpGet("user/{limit}")]
         public IActionResult GetUsersMock(int limit)
         {
             return Ok(_mockDataService.GetUserMockData(limit));       
         }
 
-        [HttpGet("getInternetMock/{limit}")]
+        [HttpGet("internet/{limit}")]
         public IActionResult GetInternetMock(int limit)
         {
             return Ok(_mockDataService.GetInternetMockData(limit));
         }
 
-        [HttpGet("getLocationMock/{limit}")]
+        [HttpGet("location/{limit}")]
         public IActionResult GetLocationMock(int limit)
         {
             return Ok(_mockDataService.GetLocaltionMockData(limit));
         }
 
-        [HttpGet("getLoremMock/{limit}")]
+        [HttpGet("lorem/{limit}")]
         public IActionResult GetLoremMock(int limit)
         {
             return Ok(_mockDataService.GetLoremMockData(limit));
         }
 
-        [HttpGet("getNotificationMock/{limit}")]
+        [HttpGet("notification/{limit}")]
         public IActionResult GetNotificationMock(int limit)
         {
             return Ok(_mockDataService.GetNotificationMockData(limit));
         }
 
-        [HttpGet("getPaymentMock/{limit}")]
+        [HttpGet("payment/{limit}")]
         public IActionResult GetPaymentMock(int limit)
         {
             return Ok(_mockDataService.GetPaymentMockData(limit));
         }
         
-        [HttpGet("getVehicleMock/{limit}")]
+        [HttpGet("vehicle/{limit}")]
         public IActionResult GetVehicleMock(int limit)
         {
             return Ok(_mockDataService.GetVehicleMockData(limit));
         }
 
-        [HttpGet("getRandomizerMock/{limit}")]
+        [HttpGet("randomizer/{limit}")]
         public IActionResult GetRandomizerMock(int limit)
         {
             return Ok(_mockDataService.GetRandomizerMockData(limit));
         }
 
-        [HttpGet("getFileSystemMock/{limit}")]
+        [HttpGet("fileSystem/{limit}")]
         public IActionResult GetFileSystemMock(int limit)
         {
             return Ok(_mockDataService.GetFileSystemMockData(limit));
         }
 
-        [HttpPost("getCustomMock/{limit}")]
+        [HttpPost("custom/{limit}")]
         public IActionResult GetCustomMock([FromBody] CustomCategoryRequestItems customCategoryRequestItems, int limit)
         {
             return Ok(_mockDataService.GenerateCustomMockJson(limit, customCategoryRequestItems));

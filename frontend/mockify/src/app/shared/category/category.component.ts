@@ -55,7 +55,7 @@ export class CategoryComponent implements OnInit {
       category: 'Custom',
       properties: [],
       icon: this.categoryIcons['Custom'],
-      endPoint: ''
+      endpointToGetMockData: ''
     });
   }
 
@@ -66,7 +66,7 @@ export class CategoryComponent implements OnInit {
       return;
     }
     this.proerties = this.categories.find(x => x.category === selectedCategory)?.properties || [];  
-    const endpoint = this.categories.find(x => x.category === selectedCategory)?.endPoint || '';
+    const endpoint = this.categories.find(x => x.category === selectedCategory)?.endpointToGetMockData || '';
     this.getMockDataForSelectedCategory(endpoint);
   }
 
@@ -96,7 +96,7 @@ export class CategoryComponent implements OnInit {
     this.categoryIcons['Payment'] = 'receipt_long';
     this.categoryIcons['User'] = 'person';
     this.categoryIcons['Vehicle'] = 'directions_car';
-    this.categoryIcons['FileSystem'] = 'save';
+    this.categoryIcons['File System'] = 'save';
     this.categoryIcons['Randomizer'] = 'shuffle';
     this.categoryIcons['Custom'] = 'settings';
   }

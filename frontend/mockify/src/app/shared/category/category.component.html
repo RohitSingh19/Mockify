@@ -11,7 +11,7 @@
         </mat-select>
     </mat-form-field>
     <p>Customize the attributes <mat-icon aria-hidden="false" fontIcon="info" mat-raised-button
-            matTooltip="You can edit below attributes to generate custom mock data"
+            matTooltip="You can any of the delete below attributes to generate custom mock data"
             matTooltipPosition="above"></mat-icon>
     </p>
     @if (proerties.length > 0) {
@@ -31,20 +31,9 @@
             </ng-container>
             <ng-container matColumnDef="Action">
                 <th mat-header-cell *matHeaderCellDef> Action </th>
-                <td mat-cell *matCellDef="let element"> <button mat-icon-button [matMenuTriggerFor]="menu"
-                        aria-label="Example icon-button with a menu">
-                        <mat-icon>more_vert</mat-icon>
-                    </button>
-                    <mat-menu #menu="matMenu">
-                        <button mat-menu-item>
-                            <mat-icon>edit</mat-icon>
-                            <span>Edit</span>
-                        </button>
-                        <button mat-menu-item>
-                            <mat-icon>delete</mat-icon>
-                            <span>Remove</span>
-                        </button>
-                    </mat-menu>
+                <td mat-cell *matCellDef="let element"> 
+                    <mat-icon aria-hidden="false" fontIcon="delete" mat-raised-button>
+                    </mat-icon>
                 </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

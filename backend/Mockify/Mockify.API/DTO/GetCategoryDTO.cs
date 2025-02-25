@@ -5,8 +5,7 @@ namespace Mockify.API.DTO
     public class GetCategoryDTO
     {
         public string Category { get; set; }
-
-        public string EndPoint { get; set; }
+        public string EndpointToGetMockData { get; set; }
         public List<Property> Properties { get; set; }
     }
 
