@@ -1,7 +1,7 @@
 export interface Category {
     category: string;
     properties: Property[];
-    endPoint: string;
+    endpointToGetMockData: string;
     icon: string;
 }
 

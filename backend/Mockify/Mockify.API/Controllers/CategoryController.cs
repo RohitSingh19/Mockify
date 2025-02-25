@@ -11,16 +11,16 @@ namespace Mockify.API.Controllers
     {
         private ICategoryService _categoryService;
         public CategoryController(ICategoryService categoryService) {
-        _categoryService = categoryService;
+         _categoryService = categoryService;
         }
 
-        [HttpGet("getCategories")]
+        [HttpGet("categories")]
         public IActionResult GetUsersMock()
         {
            return Ok(_categoryService.GetAllCategories());
         }
 
-        [HttpGet("getCustomMockModel")]
+        [HttpGet("customMockFields")]
         public IActionResult GetCustomMock()
         {
             return Ok(_categoryService.GetCustomMockModel());
