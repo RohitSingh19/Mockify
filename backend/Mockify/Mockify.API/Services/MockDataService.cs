@@ -17,7 +17,7 @@ namespace Mockify.API.Services
                 .RuleFor(u => u.Avatar, f=> f.Internet.Avatar())
                 .RuleFor(u=> u.Email, f=> f.Internet.Email())
                 .RuleFor(u => u.UserName, f => f.Internet.UserName())
-                .RuleFor(u => u.IP, f => f.Internet.Ip())
+                .RuleFor(u => u.Ip, f => f.Internet.Ip())
                 .RuleFor(u => u.Password, f => f.Internet.Password())
                 .RuleFor(u => u.Protocol, f => f.Internet.Protocol())
                 .Generate(limit);

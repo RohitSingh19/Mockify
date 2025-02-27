@@ -30,12 +30,13 @@ export class CategoryComponent implements OnInit {
 
   categories: Category[] = [];
   proerties:  Property[] = [];
-
-  jsonString : any
-  
+  originalJsonString: any;
+  currentJsonString : any  
   displayedColumns: string[] = ['No', 'Name', 'Type', 'Action'];
   categoryIcons: IHash = {};
-  
+  isCategoryVisible = true;
+  categoryVisibleIcon = 'visibility';
+  categoryInvisibleIcon = 'visibility_off';
 
   constructor(private mockDataService: MockDataService, private dialog: MatDialog) {
       this.initializeIcons();
@@ -66,12 +67,18 @@ export class CategoryComponent implements OnInit {
       return;
     }
     this.proerties = this.categories.find(x => x.category === selectedCategory)?.properties || [];  
+
+    this.proerties.map((property) => {
+      property.isVisible = true;
+    });
+
     const endpoint = this.categories.find(x => x.category === selectedCategory)?.endpointToGetMockData || '';
     this.getMockDataForSelectedCategory(endpoint);
   }
 
   getMockDataForSelectedCategory(categoryAPIEndpoint: string): void {   
     this.mockDataService.getMockDataForSelectedCategory(categoryAPIEndpoint).subscribe((data: any) => {    
+        this.originalJsonString = JSON.stringify(data, null, 2);
         this.sendJsonForPreview(data);
     });
   }
@@ -99,5 +106,24 @@ export class CategoryComponent implements OnInit {
     this.categoryIcons['File System'] = 'save';
     this.categoryIcons['Randomizer'] = 'shuffle';
     this.categoryIcons['Custom'] = 'settings';
+  }
+
+  togglePropertyVisibility(property: any): void {
+      property.isVisible = !property.isVisible;      
+      this.togglePropertyFromJSONPreview();
+  }
+
+  togglePropertyFromJSONPreview(): void {
+    const prpertiesToHide = this.proerties.filter((property) => !property.isVisible);
+    const json = JSON.parse(this.originalJsonString);
+    const updatedJson = json.map((obj: any) => {
+      const newObj = { ...obj };
+      prpertiesToHide.forEach((prop) => {
+          delete newObj[prop.name];
+      });
+      return newObj;
+   });
+
+    this.sendJsonForPreview(updatedJson);
   }
 }
