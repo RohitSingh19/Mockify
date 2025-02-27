@@ -22,7 +22,7 @@ namespace Mockify.API.Services
                 categoryDTO.Category = model.Name.ToSpaceSeparated();
                 categoryDTO.EndpointToGetMockData = model.Name.ToLower();
                 categoryDTO.Properties = model.GetProperties().Select(x => new Property {
-                                         Name = x.Name.ToSpaceSeparated(),
+                                         Name = x.Name.ToCamelCase(),
                                          Label = x.Name.ToSpaceSeparated(),
                                          Type = x.PropertyType.Name.ToDataType(),
                                          Description = model.GetProperty(x.Name)?.GetCustomAttribute<DescriptionAttribute>()?.Description

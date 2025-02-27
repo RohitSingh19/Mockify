@@ -2,7 +2,7 @@
 
 namespace Mockify.API.Helper
 {
-    public static class SpaceSeparated
+    public static class SpaceSeparatedExtention
     {
         public static string ToSpaceSeparated(this string input)
         {

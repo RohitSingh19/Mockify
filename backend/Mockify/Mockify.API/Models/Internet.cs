@@ -16,7 +16,7 @@ namespace Mockify.API.Models
         public string UserName { get; set; }
 
         [Description("Random IP address")]
-        public string IP { get; set; }
+        public string Ip { get; set; }
 
         [Description("Random password")]
         public string Password { get; set; }
