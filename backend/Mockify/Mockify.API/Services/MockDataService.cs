@@ -109,7 +109,8 @@ namespace Mockify.API.Services
 
         public List<User> GetUserMockData(int limit)
         {
-            var fakeUser = new Faker<User>(locale: "en_IND")
+            //var fakeUser = new Faker<User>(locale: "en_IND")
+            var fakeUser = new Faker<User>()
             .RuleFor(u => u.Id, f => f.Random.Number(1, limit))
             .RuleFor(u => u.FirstName, f => f.Name.FirstName())
             .RuleFor(u => u.LastName, f => f.Name.LastName())
@@ -176,9 +177,9 @@ namespace Mockify.API.Services
                         }
                     case "datetime":
                         {
-                            DateTime dateTime = DateTime.Now;
-                            DateTime.TryParse(customValue, out dateTime);   
-                            customMockData.RuleFor(u => u.DateTime, f => (dateTime == DateTime.Now) ? f.Date.Future() : dateTime);
+                            DateOnly dateTime = DateOnly.MinValue;
+                            DateOnly.TryParse(customValue, out dateTime);   
+                            customMockData.RuleFor(u => u.DateTime, f => (dateTime == DateOnly.MinValue) ? f.Date.PastDateOnly(1, DateOnly.MinValue) : dateTime);
                             requestObj.Add("datetime");
                             break;
                         }
@@ -211,7 +212,7 @@ namespace Mockify.API.Services
                         {   
                             double customDouble = Double.MinValue;
                             Double.TryParse(customValue, out customDouble);     
-                            customMockData.RuleFor(u => u.Latitude, f => (customDouble == Double.MinValue) ? f.Address.Latitude(-180, 180) : customDouble);
+                            customMockData.RuleFor(u => u.Latitude, f => (customDouble == Double.MinValue) ? f.Address.Latitude() : customDouble);
                             requestObj.Add("latitude");
                             break;
                         }
@@ -219,7 +220,7 @@ namespace Mockify.API.Services
                         {
                             double customDouble = Double.MinValue;
                             Double.TryParse(customValue, out customDouble);
-                            customMockData.RuleFor(u => u.Longitude, f => (customDouble == Double.MinValue) ? f.Address.Longitude(-180, 180) : customDouble);
+                            customMockData.RuleFor(u => u.Longitude, f => (customDouble == Double.MinValue) ? f.Address.Longitude() : customDouble);
                             requestObj.Add("longitude");
                             break;
                         }

@@ -29,7 +29,7 @@ namespace Mockify.API.Models.Custom
         [Description("DateTime")]
         [Label("Date Time")]
         
-        public DateTime DateTime { get; set; }
+        public DateOnly DateTime { get; set; }
         
         [Description("Random address")]
         [Label("Address")]

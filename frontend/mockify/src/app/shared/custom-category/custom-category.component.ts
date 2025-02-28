@@ -29,13 +29,14 @@ import {MatButtonModule} from '@angular/material/button';
 export class CustomCategoryComponent implements OnInit {
   customCategory!: Category;
   properties:  Property[] = [];
-  customCategoryForm = new FormControl('');
+  customCategoryForm = new FormControl<string[]>([]);
   selectedProperties: Property[] = [];
   customMockDataRequest: CustomMockDataRequest = { items: [] };
   jsonData: string = '';
   jsonEditorModel: JsonEditorModel[] = [];
   editorOptions: any;
   customJsonResponse: any;
+  isJsonValid = false;
   
   constructor(public dialogRef: MatDialogRef<CustomCategoryComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
              private mockDataService: MockDataService, private cdr: ChangeDetectorRef, 
@@ -61,8 +62,7 @@ export class CustomCategoryComponent implements OnInit {
   }
 
   intializeJsonEditor() {
-    this.jsonData = JSON.stringify({}, null, 2);
-  
+    this.jsonData = JSON.stringify({}, null, 2);  
     this.editorOptions = {
       theme: 'hc-light',
       language: 'json', 
@@ -78,10 +78,6 @@ export class CustomCategoryComponent implements OnInit {
       return this.properties.filter((property: Property) => propertyNames.includes(property.name));
   }
 
-  refreshSelectedProperties() {
-
-  }
-
   onCategorySelect(event: any) {
     const selectedPropertiesName = [...event.value];
 
@@ -90,17 +86,30 @@ export class CustomCategoryComponent implements OnInit {
     });
     this.showVisiblePropertiesInJsonEditor(this.properties);
   }
+
   onChange(event: any) {
-    this.jsonEditorModel = JSON.parse(event);
+    try
+    {
+      this.jsonEditorModel = JSON.parse(event);
+      this.customCategoryForm.setValue(this.jsonEditorModel.map((model: JsonEditorModel) => model.name));
+      this.isJsonValid = true;
+    }
+    catch (error) {
+      this.snackBar.open("Invalid JSON", "Dismiss", {
+        duration: 4000,
+      });
+      this.isJsonValid = false;
+    }
+    
   }
+
   showVisiblePropertiesInJsonEditor(properties: Property[]) {
     properties.forEach((property: Property) => 
     {
       if(property.isVisible && !this.jsonEditorModel.find((model: JsonEditorModel) => model.name === property.name)){
         this.jsonEditorModel.push({
           name: property.name,
-          value: '',
-          label: property.label,
+          value: ''
         });
       } else if(!property.isVisible && this.jsonEditorModel.find((model: JsonEditorModel) => model.name === property.name)) 
         {
@@ -126,7 +135,9 @@ export class CustomCategoryComponent implements OnInit {
       console.log(data);
       let jsonString = JSON.stringify(data);
       this. customJsonResponse = JSON.parse(jsonString);
-      console.log(data);
+      this.snackBar.open("JSON generated, you can either copy or download", "Dismiss", {
+        duration: 2000,
+      });
     });
   }
 

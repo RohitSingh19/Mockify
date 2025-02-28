@@ -10,6 +10,7 @@ import { HttpClient } from "@angular/common/http";
 
  export class MockDataService {
     
+    defaultLimit = 100;
     constructor(private httpClient: HttpClient) { }
 
     private mockJsonData = new BehaviorSubject<any>({});
@@ -28,10 +29,10 @@ import { HttpClient } from "@angular/common/http";
     }
 
     getMockDataForSelectedCategory(categoryAPIEndpoint: string): Observable<any> | any {        
-        return this.httpClient.get<any>(`${environment.apiUrl}${categoryAPIEndpoint}/10`);
+        return this.httpClient.get<any>(`${environment.apiUrl}${categoryAPIEndpoint}/${this.defaultLimit}`);
     }
 
     generateMockDataForCustomJson(customMockDataRequest: CustomMockDataRequest): Observable<any> {
-        return this.httpClient.post<CustomMockDataRequest>(`${environment.apiUrl}getCustomMock/10`, customMockDataRequest);
+        return this.httpClient.post<CustomMockDataRequest>(`${environment.apiUrl}custom/${this.defaultLimit}`, customMockDataRequest);
     }
  }

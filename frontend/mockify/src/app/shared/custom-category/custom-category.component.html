@@ -24,14 +24,15 @@
           </mat-select>
         </mat-form-field>
       </mat-dialog-content>
-      <div>
-        <ul>
-          <li>1️⃣ Modify the customDataValue property to add your own input to the mock data.</li>
-          <li>2️⃣ Leave customDataValue blank to auto-generate mock data for you.</li>
+      <div class="custom-data-suggestions">
+        <ul style="list-style: decimal;">
+          <li>Modify the <span class="property-highlighter">value</span> property to add your own input to the mock data.</li>
+          <li>Leave <span class="property-highlighter">value</span> blank to auto-generate mock data for you.</li>
+          <li>Modifying the <span class="property-highlighter">name</span> property will exclude that property from results</li>
         </ul>
       </div>
 
-      @if (customCategoryForm.value?.length ) {
+      @if (customCategoryForm.value?.length && this.isJsonValid) {
       <div class="custom-data-tools-container">
         <button mat-raised-button color="primary generate-mock-data" (click)="generateMockData()">Generate Mock Data</button>
         @if(customJsonResponse && customJsonResponse.length > 0) {

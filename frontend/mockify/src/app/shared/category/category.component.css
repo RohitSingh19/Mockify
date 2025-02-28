@@ -20,3 +20,8 @@
 .action-icon:hover {
     cursor: pointer;
 }
+
+
+.custom-category-option {
+    background-color: beige;
+}

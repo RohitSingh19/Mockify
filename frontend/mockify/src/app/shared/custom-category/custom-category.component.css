@@ -77,3 +77,15 @@
 .custom-data-tools-container button {
   margin-right: auto;
 }
+
+.property-highlighter {
+  background-color: #f0f0f0;
+  padding: 3px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.custom-data-suggestions ul li {
+  padding: 4px;
+}
