@@ -17,7 +17,6 @@ export interface Property {
 export interface JsonEditorModel {
     name: string;
     value: any;
-    label: string;
 }
 
 export interface CustomMockDataRequest {

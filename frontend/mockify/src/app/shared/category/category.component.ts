@@ -126,4 +126,8 @@ export class CategoryComponent implements OnInit {
 
     this.sendJsonForPreview(updatedJson);
   }
+
+  getCssForCustomCategory(categoryName: string): string {
+    return categoryName === 'Custom' ? 'custom-category-option' : '';
+  }
 }
