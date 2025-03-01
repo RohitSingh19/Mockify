@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'http://mockify.runasp.net/api/v1/'
+    apiUrl: 'https://mockify.runasp.net/api/v1/'
 };
