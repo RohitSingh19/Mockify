@@ -23,7 +23,7 @@ declare const google: any;
       providers: [
         {
           id: GoogleLoginProvider.PROVIDER_ID,
-          provider: new GoogleLoginProvider('CLIENT_ID') // Replace with your Client ID
+          provider: new GoogleLoginProvider('---') // Replace with your Client ID
         }
       ],
       onError: (err) => console.error(err)
@@ -42,7 +42,7 @@ export class AppComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     google.accounts.id.initialize({
-      client_id: 'CLIENT_ID', // Replace with your Client ID
+      client_id: '----', // Replace with your Client ID
       callback: this.handleCredentialResponse.bind(this),
       auto_select: true, // Disable auto-sign-in for FedCM compatibility
       use_fedcm_for_prompt: false // Opt-in to FedCM (experimental)
@@ -59,12 +59,12 @@ export class AppComponent implements AfterViewInit {
     );
 
     // Disable One Tap UI (optional, as it’s deprecated)
-    google.accounts.id.disableAutoSelect();
+    //google.accounts.id.disableAutoSelect();
   }
 
   handleCredentialResponse(response: any): void {
     console.log('Credential response:', response);
-    this.signInWithGoogle();
+    this.sendTokenToBackend(response.credential);
   }
 
   signOut(): void {
@@ -78,7 +78,7 @@ export class AppComponent implements AfterViewInit {
   }
 
   sendTokenToBackend(token: string): void {
-    this.httpClient.post(`${environment.apiUrl}/auth/google`, { token })
+    this.httpClient.post(`${environment.apiUrl}auth/google`, { token })
       .subscribe({
         next: (response) => console.log('Backend response:', response),
         error: (err) => console.error('Error:', err)
