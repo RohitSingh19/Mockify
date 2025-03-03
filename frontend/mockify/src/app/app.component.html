@@ -1,10 +1,36 @@
-<asl-google-signin-button
-  type="standard"
-  id="google-signin-button"
-  size="large"
-  text="signin_with"
-  width="300"
-></asl-google-signin-button>
+<!-- <div class="login-container">
+  <button mat-raised-button color="primary" (click)="loginWithGoogle()">
+    <mat-icon>login</mat-icon>
+    Sign in with Google
+  </button>
+</div> -->
+<mat-toolbar color="primary" class="app-header">
+  <span class="app-name">Mockify</span>
+
+  <span class="spacer"></span>
+
+  <button mat-icon-button [matMenuTriggerFor]="menu" class="profile-icon">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+
+  <!-- Dropdown Menu -->
+  <mat-menu #menu="matMenu" class="profile-menu">
+    <button mat-menu-item (click)="loginWithGoogle()">
+      <mat-icon>login</mat-icon>
+      <span>Login</span>
+    </button>
+    <button mat-menu-item routerLink="/saved-templates">
+      <mat-icon>save</mat-icon>
+      <span>Saved Templates</span>
+    </button>
+    <button mat-menu-item routerLink="/api-documentation">
+      <mat-icon>description</mat-icon>
+      <span>API Documentation</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
+
+
 <div class="container">
   <!-- <div id="google-signin-button"></div> -->
   <mat-card class="section">

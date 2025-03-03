@@ -1,12 +1,18 @@
 ﻿using Google.Apis.Auth;
 using Microsoft.AspNetCore.Mvc;
-using Mockify.API.Models;
+
 
 namespace Mockify.API.Controllers
 {
     [Route("api/v1")]
     public class AuthController : Controller
     {
+        private readonly IConfiguration Configuration;
+        public AuthController(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         [HttpPost("auth/google")]
         public async Task<IActionResult> GoogleLogin([FromBody] GoogleTokenRequest request)
         {
@@ -14,12 +20,10 @@ namespace Mockify.API.Controllers
             {
                 var settings = new GoogleJsonWebSignature.ValidationSettings
                 {
-                    Audience = new[] { "----" } // Replace with your Client ID
+                    Audience = new[] { Configuration["Google:ClientId"] }
                 };
 
                 var payload = await GoogleJsonWebSignature.ValidateAsync(request.Token, settings);
-
-                // Here you can create a user in your database or issue a JWT
                 return Ok(new
                 {
                     Email = payload.Email,

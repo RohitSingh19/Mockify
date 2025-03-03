@@ -12,13 +12,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IMockDataService, MockDataService>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("MyCorsPolicy", builder =>
     {
-        builder.WithOrigins("http://localhost:4200", "https://app-mockify.netlify.app/", "https://app-mockify.netlify.app").AllowAnyMethod().AllowAnyHeader();
+        builder.WithOrigins("http://localhost:4200",
+            "https://app-mockify.netlify.app/",
+            "https://app-mockify.netlify.app").AllowAnyMethod().AllowAnyHeader();
     });
 });
+
 
 builder.Services.AddAuthentication(options =>
 {
@@ -26,8 +30,8 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
 }).AddGoogle(options =>
 {
-    options.ClientId = "----";
-    options.ClientSecret = "----";
+    options.ClientId = builder.Configuration["Google:ClientId"];
+    options.ClientSecret = builder.Configuration["Google:ClientSecret"]; ;
     options.CallbackPath = "/";
 }).AddJwtBearer(options =>
 {
@@ -36,7 +40,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuer = true,
         ValidIssuer = "https://accounts.google.com",
         ValidateAudience = true,
-        ValidAudience = "----",
+        ValidAudience = builder.Configuration["Google:ClientId"],
         ValidateLifetime = true
     };
 });
