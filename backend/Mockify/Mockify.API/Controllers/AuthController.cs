@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Mockify.API.Controllers
 {
     [Route("api/v1")]
-    public class AuthController : Controller
+    public class AuthController : ControllerBase
     {
         private readonly IConfiguration Configuration;
         public AuthController(IConfiguration configuration)
@@ -16,25 +16,20 @@ namespace Mockify.API.Controllers
         [HttpPost("auth/google")]
         public async Task<IActionResult> GoogleLogin([FromBody] GoogleTokenRequest request)
         {
-            try
+            
+            var settings = new GoogleJsonWebSignature.ValidationSettings
             {
-                var settings = new GoogleJsonWebSignature.ValidationSettings
-                {
-                    Audience = new[] { Configuration["Google:ClientId"] }
-                };
+                Audience = new[] { Configuration["Google:ClientId"] }
+            };
 
-                var payload = await GoogleJsonWebSignature.ValidateAsync(request.Token, settings);
-                return Ok(new
-                {
-                    Email = payload.Email,
-                    Name = payload.Name,
-                    GoogleId = payload.Subject
-                });
-            }
-            catch (Exception ex)
+            var payload = await GoogleJsonWebSignature.ValidateAsync(request.Token, settings);
+            return Ok(new
             {
-                return BadRequest(new { Message = "Invalid token", Error = ex.Message });
-            }
+                Email = payload.Email,
+                Name = payload.Name,
+                GoogleId = payload.Subject
+            });
+            
         }
     }
 

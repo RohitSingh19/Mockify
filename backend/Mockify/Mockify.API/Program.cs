@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Mockify.API.Middlewares;
 using Mockify.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,8 +19,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy("MyCorsPolicy", builder =>
     {
         builder.WithOrigins("http://localhost:4200",
-            "https://app-mockify.netlify.app/",
-            "https://app-mockify.netlify.app").AllowAnyMethod().AllowAnyHeader();
+                            "https://app-mockify.netlify.app/",
+                            "https://app-mockify.netlify.app")
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
     });
 });
 
@@ -62,5 +65,5 @@ app.UseCors("MyCorsPolicy");
 
 
 app.MapControllers();
-
+app.UseMiddleware<GlobalExceptionHandler>();
 app.Run();
