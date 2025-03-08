@@ -41,16 +41,25 @@
   .spacer {
     flex: 1;
   }
+
+  .profile-icon .mat-icon {
+    overflow: visible;
+    margin-right: 13px;
+    margin-bottom: 16px;
+  }
+  .profile-icon .material-icons {
+    font-size: 47px;
+  }
   
-  .profile-icon {
+  /* .profile-icon {
     border-radius: 50%;
     background-color: #fff;
     color: #3f51b5;
     transition: background-color 0.3s;
-  }
+  } */
   
   .profile-icon:hover {
-    background-color: #e0e0e0;
+    cursor: pointer;
   }
   
   .profile-menu {

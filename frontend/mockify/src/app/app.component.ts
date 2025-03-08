@@ -21,6 +21,7 @@ declare const google: any;
 export class AppComponent implements AfterViewInit, OnInit {
 
   title = 'mockify';
+  loggedInUser: any;
  
 
    
@@ -46,7 +47,11 @@ export class AppComponent implements AfterViewInit, OnInit {
   sendTokenToBackend(token: string): void {
     this.httpClient.post(`${environment.apiUrl}auth/google`, { token })
       .subscribe({
-        next: (response) => console.log('Backend response:', response),
+        next: (response: any) => {
+          this.loggedInUser.email = response.email;
+          this.loggedInUser.name = response.name;
+          this.loggedInUser.picture = response.picture;
+        },
         error: (err) => console.error('Error:', err)
       });
   }
