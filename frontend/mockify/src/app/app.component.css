@@ -72,3 +72,13 @@
   }
   
   
+.avatar {
+    height: 45px;
+    width: 53px;
+    border-radius: 50%;
+}
+
+
+.avatar:hover {
+    cursor: pointer;
+}
