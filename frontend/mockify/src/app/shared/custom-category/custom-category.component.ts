@@ -16,6 +16,7 @@ import { ClipboardModule, Clipboard } from '@angular/cdk/clipboard';
 import {MatIconModule} from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {MatButtonModule} from '@angular/material/button';
+import { ApiResponse } from '../../core/models/api-response.model';
 
 
 
@@ -39,14 +40,16 @@ export class CustomCategoryComponent implements OnInit {
   isJsonValid = false;
   
   constructor(public dialogRef: MatDialogRef<CustomCategoryComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
-             private mockDataService: MockDataService, private cdr: ChangeDetectorRef, 
+             private mockDataService: MockDataService,
              private clipboard: Clipboard, private snackBar: MatSnackBar) 
              {}
 
 
   ngOnInit(): void {
-    this.mockDataService.getCustomCategory().subscribe((data: any) => {
-      this.customCategory = data;
+    this.mockDataService.getCustomCategory().subscribe((data: ApiResponse<any>) => {
+      if(data.success && data.statusCode === 200) { 
+
+      this.customCategory = data.data;
       this.customCategory.properties.forEach((property: Property) => {  
         this.properties.push({
           label: property.label,
@@ -57,8 +60,11 @@ export class CustomCategoryComponent implements OnInit {
           isVisible: false,
         })
       });
+      this.intializeJsonEditor();
+      }
+
     });
-    this.intializeJsonEditor();
+    
   }
 
   intializeJsonEditor() {
@@ -130,14 +136,15 @@ export class CustomCategoryComponent implements OnInit {
         customValue: model.value,
       };
     });
-    console.log(this.customMockDataRequest);
-    this.mockDataService.generateMockDataForCustomJson(this.customMockDataRequest).subscribe((data: any) => {
-      console.log(data);
-      let jsonString = JSON.stringify(data);
-      this. customJsonResponse = JSON.parse(jsonString);
-      this.snackBar.open("JSON generated, you can either copy or download", "Dismiss", {
-        duration: 2000,
-      });
+    this.mockDataService.generateMockDataForCustomJson(this.customMockDataRequest).subscribe((data: ApiResponse<any>) => {
+      if(data.statusCode == 201 && data.success) {
+        const jsonResponse = data.data;
+        // let jsonString = JSON.stringify(jsonResponse);
+        this.customJsonResponse = JSON.parse(jsonResponse);
+        this.snackBar.open("JSON generated, you can either copy or download", "Dismiss", {
+          duration: 2000,
+        });
+      }
     });
   }
 

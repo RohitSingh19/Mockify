@@ -20,17 +20,7 @@ export class AuthService {
             });
           });
     }
-    // signInWithGoogle() : Observable<User | null> {
-    //     //const auth2 = gapi.auth2.getAuthInstance();
-    //     // auth2.signIn().then((googleUser: any) => {
-    //     //   const idToken = googleUser.getAuthResponse().id_token;
-    //     //   return this.sendGoogleTokenToBackend(idToken);
-    //     // });
-    //     return of(null);
-    // }
-
-
-    
+   
     sendGoogleTokenToBackend(): Observable<User> {
         return new Observable<User>(observer => {
             const auth2 = gapi.auth2.getAuthInstance();
