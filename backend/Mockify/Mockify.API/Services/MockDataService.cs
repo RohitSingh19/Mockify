@@ -2,6 +2,7 @@
 using Mockify.API.Helper;
 using Mockify.API.Models;
 using Mockify.API.Models.Custom;
+using Newtonsoft.Json;
 using Internet = Mockify.API.Models.Internet;
 using Lorem = Mockify.API.Models.Lorem;
 using Randomizer = Mockify.API.Models.Randomizer;
@@ -255,7 +256,8 @@ namespace Mockify.API.Services
         private string filter(List<CustomMockModel> response, List<string> request)
         {
             var result = response.Select(u => CreateSelectiveObject(u, request));
-            return System.Text.Json.JsonSerializer.Serialize(result);
+            var json = JsonConvert.SerializeObject(result);
+            return json;
             
         }
         private object CreateSelectiveObject(CustomMockModel customMock, List<string> fields)

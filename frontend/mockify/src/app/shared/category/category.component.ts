@@ -13,6 +13,8 @@ import {MatButtonModule} from '@angular/material/button';
 import { MockDataService } from '../../core/services/mock-data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomCategoryComponent } from '../custom-category/custom-category.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ApiResponse } from '../../core/models/api-response.model';
 
 
 interface IHash {
@@ -38,16 +40,23 @@ export class CategoryComponent implements OnInit {
   categoryVisibleIcon = 'visibility';
   categoryInvisibleIcon = 'visibility_off';
 
-  constructor(private mockDataService: MockDataService, private dialog: MatDialog) {
+  constructor(private mockDataService: MockDataService, private dialog: MatDialog, private snackBar: MatSnackBar) {
       this.initializeIcons();
   }
   ngOnInit(): void {
-    this.mockDataService.getCategories().subscribe((data) => {           
-      data.map((category) => {
+    this.mockDataService.getCategories().subscribe((data) => {  
+      if(data.success && data.statusCode === 200) {
+        let categories = data.data;
+        categories.map((category) => {
           category.icon = this.categoryIcons[category.category];
        });
-      this.categories = data;
-      this.pushCustomCategory();
+       this.categories = categories;
+      this.pushCustomCategory(); 
+      } else {
+        this.snackBar.open('Error in fetching categories', 'Dismiss', {
+          duration: 2000,
+        });
+      } 
   });
   }
 
@@ -77,9 +86,11 @@ export class CategoryComponent implements OnInit {
   }
 
   getMockDataForSelectedCategory(categoryAPIEndpoint: string): void {   
-    this.mockDataService.getMockDataForSelectedCategory(categoryAPIEndpoint).subscribe((data: any) => {    
-        this.originalJsonString = JSON.stringify(data, null, 2);
-        this.sendJsonForPreview(data);
+    this.mockDataService.getMockDataForSelectedCategory(categoryAPIEndpoint).subscribe((data: ApiResponse<any>) => {   
+      if(data.success && data.statusCode === 200) {
+        this.originalJsonString = JSON.stringify(data.data, null, 2);
+        this.sendJsonForPreview(data.data);
+      }
     });
   }
 

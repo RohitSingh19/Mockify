@@ -24,8 +24,6 @@ export class AppComponent implements AfterViewInit, OnInit {
 
   title = 'mockify';
   loggedInUser: User | undefined;
- 
-
    
   constructor(private authService: AuthService, private snackBar: MatSnackBar) {
     
