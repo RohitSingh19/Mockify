@@ -139,7 +139,6 @@ export class CustomCategoryComponent implements OnInit {
     this.mockDataService.generateMockDataForCustomJson(this.customMockDataRequest).subscribe((data: ApiResponse<any>) => {
       if(data.statusCode == 201 && data.success) {
         const jsonResponse = data.data;
-        // let jsonString = JSON.stringify(jsonResponse);
         this.customJsonResponse = JSON.parse(jsonResponse);
         this.snackBar.open("JSON generated, you can either copy or download", "Dismiss", {
           duration: 2000,
