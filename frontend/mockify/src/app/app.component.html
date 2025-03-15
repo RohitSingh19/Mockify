@@ -1,42 +1,4 @@
-<mat-toolbar color="primary" class="app-header">
-  <span class="app-name">Mockify</span>
-
-  <span class="spacer"></span>
-
-  <mat-icon *ngIf="!this.loggedInUser" [matMenuTriggerFor]="menu" class="profile-icon">account_circlee</mat-icon>
-  <img *ngIf="this.loggedInUser" src="{{this.loggedInUser?.picture}}" class="avatar" alt="avatar" [matMenuTriggerFor]="menu">  
-
-  <!-- Dropdown Menu -->
-  <mat-menu #menu="matMenu" class="profile-menu">
-    <button mat-menu-item (click)="loginWithGoogle()" *ngIf="!this.loggedInUser">
-        <mat-icon>login</mat-icon>
-        <span>Login</span>
-    </button>
-    <button mat-menu-item *ngIf="this.loggedInUser">
-        <span>Hello, {{this.loggedInUser?.name}}</span>
-    </button>
-    <button mat-menu-item routerLink="/saved-templates">
-      <mat-icon>save</mat-icon>
-      <span>Saved Templates</span>
-    </button>
-    <button mat-menu-item routerLink="/api-documentation">
-      <mat-icon>description</mat-icon>
-      <span>API Documentation</span>
-    </button>
-    <button mat-menu-item *ngIf="this.loggedInUser">      
-        <mat-icon>logout</mat-icon>
-        <span>Logout</span>
-    </button>
-  </mat-menu>
-</mat-toolbar>
-
-
-<div class="container">
-  <!-- <div id="google-signin-button"></div> -->
-  <mat-card class="section">
-    <app-category></app-category>
-  </mat-card>
-  <mat-card class="section">
-    <app-preview></app-preview>
-  </mat-card>
+<app-header></app-header>
+<div>
+  <router-outlet></router-outlet>
 </div>
