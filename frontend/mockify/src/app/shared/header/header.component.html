@@ -1,5 +1,5 @@
 <mat-toolbar color="primary" class="app-header">
-    <span class="app-name">Mockify</span>
+    <span class="app-name" routerLink="/">Mockify</span>
     <span class="spacer"></span>
     <mat-icon *ngIf="!this.loggedInUser" [matMenuTriggerFor]="menu" class="profile-icon">account_circlee</mat-icon>
     <img *ngIf="this.loggedInUser" src="{{this.loggedInUser?.picture}}" class="avatar" alt="avatar" [matMenuTriggerFor]="menu">  
@@ -13,11 +13,11 @@
       <button mat-menu-item *ngIf="this.loggedInUser">
           <span>Hello, {{this.loggedInUser?.name}}</span>
       </button>
-      <button mat-menu-item routerLink="/saved-templates">
+      <button mat-menu-item routerLink="/saved">
         <mat-icon>save</mat-icon>
         <span>Saved Templates</span>
       </button>
-      <button mat-menu-item routerLink="/api-documentation">
+      <button mat-menu-item routerLink="/documentation">
         <mat-icon>description</mat-icon>
         <span>API Documentation</span>
       </button>

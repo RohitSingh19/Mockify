@@ -6,6 +6,7 @@ import { User } from '../../core/models/user.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
+import { LocalStorageService } from '../../core/services/local-storage.service';
 
 @Component({
   selector: 'app-header',
@@ -17,7 +18,9 @@ import { CommonModule } from '@angular/common';
 export class HeaderComponent {
   loggedInUser: User | undefined;
    
-  constructor(private authService: AuthService, private snackBar: MatSnackBar) {}
+  constructor(private authService: AuthService, private snackBar: MatSnackBar, private localStorage: LocalStorageService) {
+    this.checkLoggedInUser();
+  }
 
   loginWithGoogle() {
     this.authService.sendGoogleTokenToBackend().subscribe({
@@ -27,11 +30,22 @@ export class HeaderComponent {
           this.snackBar.open("Welcome, "+this.loggedInUser.name, "Dismiss", {
             duration: 2000,
           });
+          this.localStorage.removeItem('user');
+          this.localStorage.setItem('user', JSON.stringify(this.loggedInUser));
         }
       },
       error: (err) => console.error('Error:', err)
     });
   }
 
+  
+
+  checkLoggedInUser() {
+    const user = this.localStorage.getItem('user');
+    if(!user) {
+      return;
+    }
+    this.loggedInUser = JSON.parse(user);
+  }
 
 }
