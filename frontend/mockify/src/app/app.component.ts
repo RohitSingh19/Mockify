@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from "./shared/header/header.component";
 
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -11,5 +12,5 @@ import { HeaderComponent } from "./shared/header/header.component";
   styleUrl: './app.component.css',
 })
 export class AppComponent{
-  title = 'mockify';
+  title = 'mockify'; 
 }

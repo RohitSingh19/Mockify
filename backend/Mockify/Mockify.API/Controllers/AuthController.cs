@@ -27,8 +27,8 @@ namespace Mockify.API.Controllers
             {
                 Email = payload.Email,
                 Name = payload.Name,
-                GoogleId = payload.Subject,
                 Picture = payload.Picture,
+                Token = request.Token
             });
             
         }

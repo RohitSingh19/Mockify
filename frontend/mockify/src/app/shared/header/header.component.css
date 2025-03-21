@@ -11,6 +11,10 @@
     font-size: 20px;
     font-weight: 500;
   }
+
+  .app-name:hover {
+    cursor: pointer;
+  }
   
   .spacer {
     flex: 1;
