@@ -1,0 +1,54 @@
+
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+  }
+  
+  .app-name {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  .app-name:hover {
+    cursor: pointer;
+  }
+  
+  .spacer {
+    flex: 1;
+  }
+
+  .profile-icon .mat-icon {
+    overflow: visible;
+    margin-right: 13px;
+    margin-bottom: 16px;
+  }
+  .profile-icon .material-icons {
+    font-size: 47px;
+  }
+  .profile-icon:hover {
+    cursor: pointer;
+  }
+  
+  .profile-menu {
+    min-width: 180px;
+  }
+  
+  mat-menu {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  
+.avatar {
+    height: 45px;
+    width: 53px;
+    border-radius: 50%;
+}
+
+
+.avatar:hover {
+    cursor: pointer;
+}
