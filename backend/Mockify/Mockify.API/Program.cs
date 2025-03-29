@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Mockify.API.Middlewares;
+using Mockify.API.Models.DB;
 using Mockify.API.Services;
 using StackExchange.Redis;
 
@@ -35,7 +36,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
     return ConnectionMultiplexer.Connect(redisConnectionString);
 });
 
-
+builder.Services.Configure<MockifyDatabaseSettings>(builder.Configuration.GetSection("MockifyDatabase"));
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
