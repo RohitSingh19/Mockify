@@ -1,5 +1,9 @@
-﻿using Google.Apis.Auth;
+﻿using Bogus.DataSets;
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Mvc;
+using Mockify.API.Models;
+using Mockify.API.Services;
+using Newtonsoft.Json.Linq;
 
 
 namespace Mockify.API.Controllers
@@ -8,9 +12,11 @@ namespace Mockify.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration Configuration;
-        public AuthController(IConfiguration configuration)
+        private readonly IUserService _userService;
+        public AuthController(IConfiguration configuration, IUserService userService)
         {
             Configuration = configuration;
+            _userService = userService;
         }
 
         [HttpPost("auth/google")]
@@ -23,6 +29,17 @@ namespace Mockify.API.Controllers
             };
 
             var payload = await GoogleJsonWebSignature.ValidateAsync(request.Token, settings);
+            if (payload == null) { return BadRequest(); }
+                
+            Models.DB.User user = new Models.DB.User();
+
+            user.Email = payload.Email;
+            user.Name = payload.Name;
+            user.LastLogin = DateTime.Now;
+            user.Token = request.Token;
+
+            await _userService.AddUser(user);
+
             return Ok(new
             {
                 Email = payload.Email,
