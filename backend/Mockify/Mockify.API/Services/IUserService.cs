@@ -2,10 +2,10 @@
 
 namespace Mockify.API.Services
 {
-    public interface IUser
+    public interface IUserService
     {
-        Task<User> AddUser(User user);
-        Task<User> GetUser(User user);
+        Task<bool> AddUser(User user);
+        Task<User> GetUser(string email);
         Task<bool> AddTemplate(string email);
         Task<bool> DeleteTemplate(string email, string templateId);
     }
