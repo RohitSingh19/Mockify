@@ -40,11 +40,24 @@
           <div class="tools">
             <mat-icon aria-hidden="false" title="copy JSON data" (click)="copyToClipboard()"fontIcon="content_copy"></mat-icon>
             <mat-icon aria-hidden="false" title="donwload JSON data" (click)="downloadJson()" fontIcon="download"></mat-icon>
-            <mat-icon aria-hidden="false" title="save the template" (click)="downloadJson()" fontIcon="bookmark_add"></mat-icon>
+            <mat-icon aria-hidden="false" title="save the template" (click)="showTooltip = !showTooltip" fontIcon="bookmark_add"></mat-icon>
+            <!-- Custom Tooltip -->
+            <div class="custom-tooltip" *ngIf="showTooltip">
+              <mat-card>
+                <mat-card-content>
+                  <input matInput type="text" [(ngModel)]="templateName" placeholder="Template Name" />
+                </mat-card-content>
+                <mat-card-actions class="tooltip-actions">
+                  <button mat-button color="primary" (click)="saveTemplate()">Save</button>
+                  <button mat-button (click)="showTooltip = false">Cancel</button>
+                </mat-card-actions>
+              </mat-card>
+            </div>
+            <!-- End of Custom Tooltip -->
           </div>        
         }
       </div>
-      }
+    }
     </div>
   </div>
   <div class="section json-editor">

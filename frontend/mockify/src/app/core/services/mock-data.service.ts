@@ -15,7 +15,7 @@ import { ApiResponse } from "../models/api-response.model";
     
     defaultLimit = 100;
     constructor(private httpClient: HttpClient) {
-     }
+    }
 
     private mockJsonData = new BehaviorSubject<any>({});
     getmockJsonData$ = this.mockJsonData.asObservable();

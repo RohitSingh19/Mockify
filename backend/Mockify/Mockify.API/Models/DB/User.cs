@@ -19,6 +19,6 @@ namespace Mockify.API.Models.DB
         public DateTime LastLogin { get; set; }
         
         [BsonElement("templates")]
-        public object[] Templates { get; set; } = new object[0];
+        public Template[] Templates { get; set; } = new Template[0];
     }
 }
