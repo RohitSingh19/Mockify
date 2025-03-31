@@ -9,6 +9,10 @@ import {MatTableModule} from '@angular/material/table';
 import { CommonModule, JsonPipe } from '@angular/common';
 import { MatInputModule } from '@angular/material/input'
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+
 import {
   NuMonacoEditorComponent,  
 } from '@ng-util/monaco-editor';
@@ -23,7 +27,9 @@ import { ApiResponse } from '../../core/models/api-response.model';
 @Component({
   selector: 'app-custom-category',
   standalone: true,
-  imports: [MatButtonModule, ClipboardModule,MatIconModule, NuMonacoEditorComponent,NgxJsonViewerModule, MatInputModule,CommonModule, MatDialogContent,MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, MatTableModule],
+  imports: [MatButtonModule, ClipboardModule,MatIconModule, NuMonacoEditorComponent, 
+    NgxJsonViewerModule, MatInputModule,CommonModule, MatDialogContent,MatFormFieldModule,
+     MatSelectModule, FormsModule, ReactiveFormsModule, MatTableModule, MatCardModule, MatTooltipModule],
   templateUrl: './custom-category.component.html',
   styleUrl: './custom-category.component.css'
 })
@@ -38,6 +44,8 @@ export class CustomCategoryComponent implements OnInit {
   editorOptions: any;
   customJsonResponse: any;
   isJsonValid = false;
+  showTooltip = false;
+  templateName: string = '';
   
   constructor(public dialogRef: MatDialogRef<CustomCategoryComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
              private mockDataService: MockDataService,
@@ -165,6 +173,10 @@ export class CustomCategoryComponent implements OnInit {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+  }
+
+  saveTemplate() {
+    console.log(this.templateName);
   }
 }
 
