@@ -1,12 +1,7 @@
-﻿
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Mockify.API.DTO;
-using Mockify.API.Helper;
 using Mockify.API.Models.DB;
-using MongoDB.Bson;
-using MongoDB.Bson.IO;
 using MongoDB.Driver;
-using Newtonsoft.Json;
 
 namespace Mockify.API.Services
 {
@@ -53,16 +48,38 @@ namespace Mockify.API.Services
             return true;
         }
 
-        public Task<bool> DeleteTemplate(string email, string templateId)
+        public async Task<bool> DeleteTemplate(string email, string templateName)
         {
-            throw new NotImplementedException();
+            var user = await GetUser(email);
+            if (user == null) {
+                throw new Exception("User email not found in system.");
+            }
+
+            if (!user.Templates.Any(x => x.Name.ToLower() == templateName.ToLower())) {
+                throw new Exception("Template not found");
+            }
+            var filter = Builders<User>.Filter.Eq(user => user.Email, email);
+            var update = Builders<User>.Update.PullFilter(x => x.Templates, builder => builder.Name.ToLower() == templateName.ToLower());
+            var result = await _userCollection.UpdateOneAsync(filter, update);
+            return result.MatchedCount > 0;
+        }
+
+        public async Task<Models.DB.Template> GetTemplate(string email, string templateName)
+        {
+            var user = await GetUser(email);
+            if (user == null)
+            {
+                throw new Exception("User email not found in system.");
+            }
+
+            var template = user.Templates.FirstOrDefault(x => x.Name.ToLower() == templateName.ToLower());
+            return template ?? new Models.DB.Template();
         }
 
         public async Task<List<Models.DB.Template>> GetTemplates(string email)
         {
             var user = await GetUser(email);
-            if (user == null)
-            {
+            if (user == null) {
                 throw new Exception("User email not found in system.");
             }
             var templates = user.Templates;
@@ -72,6 +89,30 @@ namespace Mockify.API.Services
         public async Task<User> GetUser(string email)
         {
             return await _userCollection.Find<User>(x => x.Email == email).FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> UpdateTemplate(string email, string templateName, TemplateDTO content)
+        {
+            var user = await GetUser(email);
+            if (user == null)
+            {
+                throw new Exception("User email not found in system.");
+            }
+
+            if (!user.Templates.Any(x => x.Name.ToLower() == templateName.ToLower()))
+            {
+                throw new Exception("Template not found");
+            }
+
+            if (await DeleteTemplate(email, templateName))
+            {
+                await AddTemplate(email, templateName, content);
+                return true;
+            }
+            else
+            {
+                throw new Exception($"Failed to update template: {email}");
+            }
         }
     }
 }
