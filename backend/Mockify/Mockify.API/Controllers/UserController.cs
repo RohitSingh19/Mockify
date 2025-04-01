@@ -36,7 +36,31 @@ namespace Mockify.API.Controllers
             {
                 Data = await _userService.GetTemplates(email),
                 Message = "Success",
-                StatusCode = 201,
+                StatusCode = 200,
+                Success = true
+            });
+        }
+
+        [HttpDelete("delete/{email}")]
+        public async Task<IActionResult> Delete(string email, string templateName)
+        {
+            return Ok(new ApiResponse<object>
+            {
+                Data = await _userService.DeleteTemplate(email, templateName),
+                Message = "Success",
+                StatusCode = 200,
+                Success = true
+            });
+        }
+
+        [HttpPut("update/{email}")]
+        public async Task<IActionResult> Update([FromBody] TemplateDTO templateDTO, string email, string templateName)
+        {
+            return Ok(new ApiResponse<object>
+            {
+                Data = await _userService.UpdateTemplate(email, templateName, templateDTO),
+                Message = "Success",
+                StatusCode = 200,
                 Success = true
             });
         }
