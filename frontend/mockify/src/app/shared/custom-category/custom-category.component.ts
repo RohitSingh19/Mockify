@@ -21,6 +21,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {MatButtonModule} from '@angular/material/button';
 import { ApiResponse } from '../../core/models/api-response.model';
+import { TemplateService } from '../../core/services/template-service';
 
 
 
@@ -49,7 +50,7 @@ export class CustomCategoryComponent implements OnInit {
   
   constructor(public dialogRef: MatDialogRef<CustomCategoryComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
              private mockDataService: MockDataService,
-             private clipboard: Clipboard, private snackBar: MatSnackBar) 
+             private clipboard: Clipboard, private snackBar: MatSnackBar, private templateService: TemplateService) 
              {}
 
 
@@ -176,6 +177,12 @@ export class CustomCategoryComponent implements OnInit {
   }
 
   saveTemplate() {
+    this.templateService.saveTemplate(this.templateName,
+       JSON.stringify(this.customMockDataRequest))
+       .subscribe((data: ApiResponse<any>) => {
+        console.log(data);
+    });
+
     console.log(this.templateName);
   }
 }
