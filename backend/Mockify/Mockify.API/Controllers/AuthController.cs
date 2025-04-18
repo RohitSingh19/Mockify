@@ -38,7 +38,11 @@ namespace Mockify.API.Controllers
             user.LastLogin = DateTime.Now;
             user.Token = request.Token;
 
-            await _userService.AddUser(user);
+            var userInDB = await _userService.GetUser(user.Email);
+
+            if (userInDB == null) {
+                await _userService.AddUser(user);
+            }
 
             return Ok(new
             {

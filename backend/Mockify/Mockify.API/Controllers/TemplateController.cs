@@ -16,11 +16,11 @@ namespace Mockify.API.Controllers
     [ApiController]
     public class TemplateController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly ITemplateService _templateService;
         private readonly IConfiguration _configuration;
-        public TemplateController(IUserService userService, IConfiguration configuration)
+        public TemplateController(ITemplateService templateService, IConfiguration configuration)
         {
-            _userService = userService;
+            _templateService = templateService;
             _configuration = configuration;
         }
 
@@ -35,8 +35,7 @@ namespace Mockify.API.Controllers
 
             return Ok(new ApiResponse<object>
             {
-                Data = await _userService.AddTemplate(userEmail,
-                                templateDTO.TemplateName, templateDTO),
+                Data = await _templateService.AddTemplate(userEmail, templateDTO),
                 Message = "Success",
                 StatusCode = 201,
                 Success = true
@@ -54,7 +53,7 @@ namespace Mockify.API.Controllers
 
             return Ok(new ApiResponse<object>
             {
-                Data = await _userService.GetTemplates(userEmail),
+                Data = await _templateService.GetTemplates(userEmail),
                 Message = "Success",
                 StatusCode = 200,
                 Success = true
@@ -72,7 +71,7 @@ namespace Mockify.API.Controllers
 
             return Ok(new ApiResponse<object>
             {
-                Data = await _userService.DeleteTemplate(userEmail, templateName),
+                Data = await _templateService.DeleteTemplate(userEmail, templateName),
                 Message = "Success",
                 StatusCode = 200,
                 Success = true
@@ -91,7 +90,7 @@ namespace Mockify.API.Controllers
 
             return Ok(new ApiResponse<object>
             {
-                Data = await _userService.UpdateTemplate(userEmail, templateName, templateDTO),
+                Data = await _templateService.UpdateTemplate(userEmail, templateDTO),
                 Message = "Success",
                 StatusCode = 200,
                 Success = true
