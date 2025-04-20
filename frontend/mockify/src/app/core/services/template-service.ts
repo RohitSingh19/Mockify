@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Template } from "../models/template-model";
 import { environment } from "../../../environments/environment";
 import { Observable } from "rxjs";
+import { JsonEditorModel } from "../models/category.model";
 
 @Injectable({providedIn: 'root'})
 export class TemplateService {
@@ -11,7 +12,7 @@ export class TemplateService {
     
     }
 
-    saveTemplate(templateName: string, templateContent: string):Observable<any> {
+    saveTemplate(templateName: string, templateContent: JsonEditorModel[]):Observable<any> {
         const Template : Template = {
             name: templateName,
             content: templateContent
@@ -45,7 +46,7 @@ export class TemplateService {
         const user = localStorage.getItem('user');
         if(!user) {  }
         const token = user ? JSON.parse(user).token : '';
-        return this.httpClient.delete(`${environment.apiUrl}template/${templateName}`, {
+        return this.httpClient.delete(`${environment.apiUrl}template/delete/${templateName}`, {
             headers: {
                 Authorization: token,
                 'Content-Type': 'application/json'
@@ -53,7 +54,7 @@ export class TemplateService {
         });
     }
 
-    updateTemplate(templateName: string, templateContent: string):Observable<any> {
+    updateTemplate(templateName: string, templateContent: JsonEditorModel[]):Observable<any> {
         const Template : Template = {
             name: templateName,
             content: templateContent

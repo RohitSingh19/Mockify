@@ -1,0 +1,16 @@
+.table-container {
+    display: flex;
+    justify-content: center;
+    padding: 0 300px; /* adjust left and right padding as needed */
+    margin-top: 4%;
+  }
+  
+  .custom-table {
+    width: 100%;
+    max-width: 800px; /* limit width for better centering */
+  }
+  
+
+  .action-icon:hover {
+    cursor: pointer;
+  }
