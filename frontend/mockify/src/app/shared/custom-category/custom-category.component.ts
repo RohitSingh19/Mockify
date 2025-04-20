@@ -51,7 +51,9 @@ export class CustomCategoryComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<CustomCategoryComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
              private mockDataService: MockDataService,
              private clipboard: Clipboard, private snackBar: MatSnackBar, private templateService: TemplateService) 
-             {}
+             {
+
+             }
 
 
   ngOnInit(): void {
@@ -69,7 +71,10 @@ export class CustomCategoryComponent implements OnInit {
           isVisible: false,
         })
       });
-      this.intializeJsonEditor();
+        this.intializeJsonEditor();
+        if(this.data) {
+          this.jsonData = this.data;
+        }
       }
 
     });
@@ -178,7 +183,7 @@ export class CustomCategoryComponent implements OnInit {
 
   saveTemplate() {
     this.templateService.saveTemplate(this.templateName,
-       JSON.stringify(this.customMockDataRequest))
+       this.jsonEditorModel)
        .subscribe((data: ApiResponse<any>) => {
         console.log(data);
     });

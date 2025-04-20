@@ -3,6 +3,11 @@
     public class TemplateDTO
     {
         public string Name { get; set; }
-        public string Content { get; set; }
+        public TemplateItem [] Content { get; set; }
+    }
+    public class TemplateItem
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
     }
 }
