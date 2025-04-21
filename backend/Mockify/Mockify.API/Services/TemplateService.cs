@@ -86,7 +86,7 @@ namespace Mockify.API.Services
 
 
 
-        public async Task<bool> UpdateTemplate(string email, TemplateDTO templateDTO)
+        public async Task<bool> UpdateTemplate(string email, TemplateDTO templateDTO, string templateName)
         {
             var user = await _userService.GetUser(email);
             if (user == null)
@@ -94,12 +94,12 @@ namespace Mockify.API.Services
                 throw new Exception("User email not found in system.");
             }
 
-            if (!user.Templates.Any(x => x.Name.ToLower() == templateDTO.Name.ToLower()))
+            if (!user.Templates.Any(x => x.Name.ToLower() == templateName.ToLower()))
             {
                 throw new Exception("Template not found");
             }
 
-            if (await DeleteTemplate(email, templateDTO.Name))
+            if (await DeleteTemplate(email, templateName))
             {
                 await AddTemplate(email, templateDTO);
                 return true;

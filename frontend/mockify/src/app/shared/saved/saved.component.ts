@@ -61,22 +61,12 @@ export class SavedComponent {
     });
   }
 
-  editTemplate(template: Template) {
-    const jsonString = [
-      {
-        name: 'Number',
-        value: '',
-      },
-      {
-        name: 'UserName',
-        value: '',
-      },
-    ];
+  editTemplate(template: Template) {    
     this.dialog.open(CustomCategoryComponent, {
           width: '90vw',
           maxWidth: '90vw',
           height: '600px',
-          data: {jsonString}
+          data: template
         });
   }
 }

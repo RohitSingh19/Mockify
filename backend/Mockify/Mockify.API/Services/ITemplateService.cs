@@ -7,7 +7,7 @@ namespace Mockify.API.Services
         Task<bool> AddTemplate(string email, TemplateDTO templateContent);
         Task<List<Models.DB.Template>> GetTemplates(string email);
         Task<bool> DeleteTemplate(string email, string templateName);
-        Task<bool> UpdateTemplate(string email, TemplateDTO content);
+        Task<bool> UpdateTemplate(string email, TemplateDTO content, string templateName);
         Task<Models.DB.Template> GetTemplate(string email, string templateName);
     }
 }
