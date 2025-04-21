@@ -54,7 +54,7 @@ export class TemplateService {
         });
     }
 
-    updateTemplate(templateName: string, templateContent: JsonEditorModel[]):Observable<any> {
+    updateTemplate(templateName: string, templateContent: JsonEditorModel[], oldTemplateName: string):Observable<any> {
         const Template : Template = {
             name: templateName,
             content: templateContent
@@ -62,7 +62,7 @@ export class TemplateService {
         const user = localStorage.getItem('user');
         if(!user) {  }
         const token = user ? JSON.parse(user).token : '';
-        return this.httpClient.put(`${environment.apiUrl}template/update`, Template, {
+        return this.httpClient.put(`${environment.apiUrl}template/update/${oldTemplateName}`, Template, {
             headers: {
                 Authorization: token,
                 'Content-Type': 'application/json'

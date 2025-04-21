@@ -90,7 +90,7 @@ namespace Mockify.API.Controllers
 
             return Ok(new ApiResponse<object>
             {
-                Data = await _templateService.UpdateTemplate(userEmail, templateDTO),
+                Data = await _templateService.UpdateTemplate(userEmail, templateDTO, templateName),
                 Message = "Success",
                 StatusCode = 200,
                 Success = true

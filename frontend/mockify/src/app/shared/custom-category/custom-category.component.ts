@@ -22,6 +22,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import {MatButtonModule} from '@angular/material/button';
 import { ApiResponse } from '../../core/models/api-response.model';
 import { TemplateService } from '../../core/services/template-service';
+import { Observable } from 'rxjs';
 
 
 
@@ -47,6 +48,8 @@ export class CustomCategoryComponent implements OnInit {
   isJsonValid = false;
   showTooltip = false;
   templateName: string = '';
+  isUpdateTemplate = false;
+  oldTemplateName: string = '';
   
   constructor(public dialogRef: MatDialogRef<CustomCategoryComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
              private mockDataService: MockDataService,
@@ -73,7 +76,10 @@ export class CustomCategoryComponent implements OnInit {
       });
         this.intializeJsonEditor();
         if(this.data) {
-          this.jsonData = this.data;
+          this.jsonData = this.data.content;
+          this.templateName = this.data.name;
+          this.oldTemplateName = this.data.name;
+          this.isUpdateTemplate = true;
         }
       }
 
@@ -182,13 +188,28 @@ export class CustomCategoryComponent implements OnInit {
   }
 
   saveTemplate() {
-    this.templateService.saveTemplate(this.templateName,
-       this.jsonEditorModel)
-       .subscribe((data: ApiResponse<any>) => {
-        console.log(data);
+    if(this.templateName === '') {  
+      //show error message
+      this.snackBar.open("Please enter template name", "Dismiss", {
+        duration: 2000,
+      });
+      return;
+    }
+    const action: Observable<any> = this.isUpdateTemplate ?
+                                    this.templateService.updateTemplate(this.templateName, this.jsonEditorModel, this.oldTemplateName) :
+                                    this.templateService.saveTemplate(this.templateName, this.jsonEditorModel);
+    
+    action.subscribe((data) => {
+      if(data.success && data.statusCode === 200) {
+        this.snackBar.open(`${this.templateName} template ${this.isUpdateTemplate ? 'updated' : 'saved'}`, "Dismiss", {
+          duration: 2000,
+        });
+      } else {
+        this.snackBar.open('Error in saving template', "Dismiss", {
+          duration: 2000,
+        });
+      }
     });
-
-    console.log(this.templateName);
   }
 }
 
