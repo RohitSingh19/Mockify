@@ -21,7 +21,7 @@
       <mat-icon>description</mat-icon>
       <span>API Documentation</span>
     </button>
-    <button mat-menu-item *ngIf="this.loggedInUser">      
+    <button mat-menu-item *ngIf="this.loggedInUser" (click)="logout()">       
         <mat-icon>logout</mat-icon>
         <span>Logout</span>
     </button>

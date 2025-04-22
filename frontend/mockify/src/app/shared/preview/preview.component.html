@@ -1,13 +1,22 @@
 <span>
-    <h3>Preview mock data</h3>
-    @if (mockJsonData.length > 0) {
-    <div class="tools-container">
-        <mat-icon aria-hidden="false" title="copy JSON data" (click)="copyToClipboard()" fontIcon="content_copy"></mat-icon>
-        <mat-icon aria-hidden="false" title="donwload JSON data" (click)="downloadJson()" fontIcon="download"></mat-icon>
+    <div class="preview-header">      
+      <h3 class="preview-title">Preview mock data</h3>
+      @if (mockJsonData.length > 0) {
+      <div class="tools-container">
+        <button mat-raised-button color="primary" class="custom-button" (click)="copyToClipboard()">
+            <mat-icon fontIcon="content_copy"></mat-icon>
+            Copy
+          </button>
+          <button mat-raised-button color="accent" class="custom-button" (click)="downloadJson()">
+            <mat-icon fontIcon="download"></mat-icon>
+            Download
+          </button>
+      </div>
+    }
     </div>
-
+    @if (mockJsonData.length > 0) {
     <div class="json-container">
-        <pre>{{ mockJsonData | json}}</pre>
+      <pre>{{ mockJsonData | json }}</pre>
     </div>
     }
-</span>
+  </span>

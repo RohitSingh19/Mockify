@@ -8,6 +8,8 @@ import { User } from './core/models/user.model';
 import { AuthService } from './core/services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LocalStorageService } from './core/services/local-storage.service';
+import { Router } from '@angular/router';
+
 
 
 @Component({
@@ -21,7 +23,9 @@ export class AppComponent{
   title = 'mockify'; 
   loggedInUser: User | undefined;
      
-    constructor(private authService: AuthService, private snackBar: MatSnackBar, private localStorage: LocalStorageService) {
+    constructor(private authService: AuthService, private snackBar: MatSnackBar,
+       private localStorage: LocalStorageService, private router: Router 
+      ) {
       this.checkLoggedInUser();
     }
   
@@ -49,5 +53,17 @@ export class AppComponent{
         return;
       }
       this.loggedInUser = JSON.parse(user);
+    }
+
+
+    logout() {
+      this.localStorage.removeItem('user');
+      this.loggedInUser = undefined;
+      this.snackBar.open("Logged out successfully", "Dismiss", {
+        duration: 2000,
+      });
+
+      this.router.navigate(['/']); // Navigate to the home screen
+
     }
 }
