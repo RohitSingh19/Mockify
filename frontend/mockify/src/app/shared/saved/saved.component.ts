@@ -13,6 +13,7 @@ import { Template } from '../../core/models/template-model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomCategoryComponent } from '../custom-category/custom-category.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-saved',
@@ -24,21 +25,24 @@ import { CustomCategoryComponent } from '../custom-category/custom-category.comp
     MatInputModule,
     MatGridListModule,
     MatIconModule,
-    MatTooltipModule],
+    MatTooltipModule,
+    CommonModule],
   templateUrl: './saved.component.html',
   styleUrl: './saved.component.css'
 })
 export class SavedComponent {
   displayedColumns: string[] = ['No', 'Name', 'Action 1', 'Action 2'];
   templates: any[] = [];
+  isLoading: boolean = false; // Loading state variable
+  isCategoryVisible = true;
 
-  constructor(private templateServive: TemplateService, private dialog: MatDialog, private snackBar: MatSnackBar) {
+  constructor(private templateService: TemplateService, private dialog: MatDialog, private snackBar: MatSnackBar) {
     this.getAllTemplates();
   }
 
   deleteTemplate(template: Template) {
     alert(template.name);
-    this.templateServive.deleteTemplate(template.name).subscribe((data) => {
+    this.templateService.deleteTemplate(template.name).subscribe((data) => {
       if(data.success && data.statusCode === 200) {
         this.getAllTemplates();
         this.snackBar.open(`${template.name} deleted`, "Dismiss", {
@@ -51,13 +55,18 @@ export class SavedComponent {
   }
 
   getAllTemplates() {
-    this.templateServive.getTemplates().subscribe((data) => { 
-      if(data.success && data.statusCode === 200) {
+    this.isLoading = true; // Set loading to true before API call
+    this.templateService.getTemplates().subscribe((data) => {
+      this.isLoading = false; // Set loading to false after API call
+      if (data.success && data.statusCode === 200) {
         this.templates = data.data;
         console.log(this.templates);
       } else {
         this.templates = [];
       }
+    }, (error) => {
+      this.isLoading = false; // Handle error and stop loading
+      console.error('Error fetching templates:', error);
     });
   }
 

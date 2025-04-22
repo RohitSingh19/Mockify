@@ -14,3 +14,16 @@
   .action-icon:hover {
     cursor: pointer;
   }
+
+
+.loading-row, .no-data-row {
+    text-align: center;
+    font-style: italic;
+    color: gray;
+}
+
+.loading-message, .no-data-message {
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+}

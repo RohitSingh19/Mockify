@@ -1,5 +1,15 @@
 <div class="table-container">
-    <table mat-table [dataSource]="templates" class="mat-elevation-z8">
+    <!-- Show loading message when data is loading -->
+    <div *ngIf="isLoading" class="center-message">
+        <p>Data is loading...</p>
+    </div>
+
+    <!-- Show no data message when there is no data -->
+    <div *ngIf="!isLoading && templates.length === 0" class="center-message">
+        <p>No data found</p>
+    </div>
+
+    <table *ngIf="!isLoading && templates.length > 0" mat-table [dataSource]="templates" class="mat-elevation-z8">
         <ng-container matColumnDef="No">
             <th mat-header-cell *matHeaderCellDef> No. </th>
             <td mat-cell *matCellDef="let element; let i = index"> {{i + 1}} </td>
