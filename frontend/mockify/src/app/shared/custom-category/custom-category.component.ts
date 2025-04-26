@@ -23,6 +23,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { ApiResponse } from '../../core/models/api-response.model';
 import { TemplateService } from '../../core/services/template-service';
 import { Observable } from 'rxjs';
+import { AuthService } from '../../core/services/auth.service';
 
 
 
@@ -52,7 +53,7 @@ export class CustomCategoryComponent implements OnInit {
   oldTemplateName: string = '';
   
   constructor(public dialogRef: MatDialogRef<CustomCategoryComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
-             private mockDataService: MockDataService,
+             private mockDataService: MockDataService, private authService: AuthService,
              private clipboard: Clipboard, private snackBar: MatSnackBar, private templateService: TemplateService) 
              {
 
@@ -195,6 +196,20 @@ export class CustomCategoryComponent implements OnInit {
       });
       return;
     }
+
+    /*
+     This entire logic can be improved by checking if the user is present in local storage then checking the token expiration 
+     and then calling the API to save the template. If the token is expired then we can call the login API again and then save the template.
+     But for now we are just checking if the user is present in local storage and then calling the API to save the template.
+    */
+    const user = localStorage.getItem('user');
+    if(!user) {
+      this.snackBar.open("Login to save the template", "Dismiss", {
+        duration: 2000,
+      });
+      return;
+    }
+
     const action: Observable<any> = this.isUpdateTemplate ?
                                     this.templateService.updateTemplate(this.templateName, this.jsonEditorModel, this.oldTemplateName) :
                                     this.templateService.saveTemplate(this.templateName, this.jsonEditorModel);
@@ -209,6 +224,11 @@ export class CustomCategoryComponent implements OnInit {
           duration: 2000,
         });
       }
+    }, error  => {
+      console.error('Error:', error);
+      this.snackBar.open('Error in saving template', "Dismiss", {
+        duration: 2000,
+      });
     });
   }
 }
