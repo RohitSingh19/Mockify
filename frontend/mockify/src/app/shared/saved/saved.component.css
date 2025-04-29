@@ -27,3 +27,21 @@
     width: 100%;
     padding: 10px;
 }
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0; /* Add spacing above and below */
+}
+
+.google-login-button {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between the icon and text */
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: none; /* Prevent uppercase transformation */
+  padding: 10px 20px;
+  border-radius: 4px;
+}

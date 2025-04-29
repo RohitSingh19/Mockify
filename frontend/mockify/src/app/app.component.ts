@@ -7,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { User } from './core/models/user.model';
 import { AuthService } from './core/services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { LocalStorageService } from './core/services/local-storage.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -23,34 +22,35 @@ import { Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent implements AfterViewInit{
+export class AppComponent{
   title = 'mockify';
   loggedInUser: User | undefined;
 
   constructor(
     private authService: AuthService,
-    private snackBar: MatSnackBar,
-    private localStorage: LocalStorageService,
+    private snackBar: MatSnackBar,    
     private router: Router
-  ) {}
+  ) {
 
-  ngAfterViewInit(): void {
-    
-    // setTimeout(() => {
-    //   this.checkLoggedInUser();
-    // }, 3000); // Delay of 3 seconds
+  }
+  ngOnInit() {
+    this.authService.loggedInUser$.subscribe((user) => {
+      this.loggedInUser = user;
+      console.log('Logged in user:', this.loggedInUser);
+    });
+    this.checkLoggedInUser();
   }
 
   loginWithGoogle() {
     this.authService.sendGoogleTokenToBackend().subscribe({
       next: (user) => {
         if (user) {
+          this.authService.setLoggedInUser(user);
           this.loggedInUser = user;
           this.snackBar.open('Welcome, ' + this.loggedInUser.name, 'Dismiss', {
             duration: 2000,
           });
-          this.localStorage.removeItem('user');
-          this.localStorage.setItem('user', JSON.stringify(this.loggedInUser));
+          this.authService.setLoggedInUser(user);
         }
       },
       error: (err) => console.error('Error:', err),
@@ -62,12 +62,11 @@ export class AppComponent implements AfterViewInit{
   }
 
   logout() {
-    this.localStorage.removeItem('user');
-    this.loggedInUser = undefined;
+    this.authService.logout();
+    this.authService.removeUserFromLocalStorage();
     this.snackBar.open('Logged out successfully', 'Dismiss', {
       duration: 2000,
     });
-
     this.router.navigate(['/']); // Navigate to the home screen
   }
 }
