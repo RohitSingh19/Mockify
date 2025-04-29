@@ -3,12 +3,15 @@ import { environment } from '../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user.model';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 @Injectable({  
     providedIn: 'root'
 })
 export class AuthService {
+
+    private loggedInUser = new BehaviorSubject<User>(null!);
+    loggedInUser$ = this.loggedInUser.asObservable();
     
     constructor(private httpClient: HttpClient) {
         loadGapiInsideDOM().then(() => {
@@ -20,7 +23,11 @@ export class AuthService {
             });
           });
     }
-   
+    
+    setLoggedInUser(user: User) {
+        this.loggedInUser.next(user);
+    }
+
     sendGoogleTokenToBackend(): Observable<User> {
         return new Observable<User>(observer => {
             const auth2 = gapi.auth2.getAuthInstance();
@@ -30,10 +37,33 @@ export class AuthService {
                     user => {
                         observer.next(user);
                         observer.complete();
+                        this.setLoggedInUser(user);
+                        localStorage.setItem('user', JSON.stringify(user));
                     },
                     err => observer.error(err)
                 );
             });
+        });
+    }
+
+    saveUserInLocalStorage() {                
+        localStorage.setItem('user', JSON.stringify(this.loggedInUser));
+    }
+
+    removeUserFromLocalStorage() {
+        localStorage.removeItem('user');
+    }
+
+    getUserFromLocalStorage(): User | null {
+        const user = localStorage.getItem('user');
+        return user ? JSON.parse(user) : null;
+    }
+
+    logout() {
+        const auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(() => {
+            this.removeUserFromLocalStorage();
+            this.setLoggedInUser(null!);
         });
     }
 }

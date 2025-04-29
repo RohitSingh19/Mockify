@@ -225,10 +225,11 @@ export class CustomCategoryComponent implements OnInit {
         });
       }
     }, error  => {
-      console.error('Error:', error);
-      this.snackBar.open('Error in saving template', "Dismiss", {
-        duration: 2000,
-      });
+      if(error && error.error && error.error.message) {
+        this.snackBar.open(error.error.message, "Dismiss", {
+          duration: 2000,
+        });
+      }
     });
   }
 }

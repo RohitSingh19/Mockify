@@ -1,14 +1,16 @@
-<div class="table-container">
-    <!-- Show loading message when data is loading -->
-    <div *ngIf="isLoading" class="center-message">
-        <p>Data is loading...</p>
-    </div>
-
+<div class="table-container">   
     <!-- Show no data message when there is no data -->
-    <div *ngIf="!isLoading && templates.length === 0" class="center-message">
+    <div *ngIf="!isLoading && templates.length === 0 && isUserLoggedIn" class="center-message">
         <p>No data found</p>
     </div>
 
+    <div class="login-container" *ngIf="!isUserLoggedIn">
+        <button mat-raised-button color="primary" class="google-login-button" (click)="loginWithGoogle()">
+          <mat-icon fontIcon="login"></mat-icon>
+          Login with Google
+        </button>
+    </div>
+    
     <table *ngIf="!isLoading && templates.length > 0" mat-table [dataSource]="templates" class="mat-elevation-z8">
         <ng-container matColumnDef="No">
             <th mat-header-cell *matHeaderCellDef> No. </th>

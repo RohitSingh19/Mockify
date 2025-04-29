@@ -27,12 +27,23 @@ namespace Mockify.API.Middlewares
                 var response = new ApiResponse<JsonObject>
                 {
                     Data = null,
-                    Message = ex.Message,
+                    Message = CreateCustomMessageForExceptions(ex.Message),
                     StatusCode = httpContext.Response.StatusCode,
                     Success = false,
                 };
 
                 await httpContext.Response.WriteAsync(JsonConvert.SerializeObject(response));
+            }
+        }
+
+        private string CreateCustomMessageForExceptions(string exceptionMsg)
+        {
+            switch (exceptionMsg) 
+            {
+                case "JWT has expired.":
+                    return "Token expired, Pls login again";
+                default:
+                    return exceptionMsg;
             }
         }
     }
