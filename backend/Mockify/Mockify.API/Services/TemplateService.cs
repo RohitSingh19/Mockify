@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Mockify.API.DTO;
 using Mockify.API.Models.DB;
 using MongoDB.Driver;
+using System.Text.RegularExpressions;
 
 namespace Mockify.API.Services
 {
@@ -84,7 +85,17 @@ namespace Mockify.API.Services
             return templates.ToList();
         }
 
-
+        public bool IsTemplateNameValid(string templateName)
+        {
+            templateName = templateName.Trim();
+            string pattern = "^[a-zA-Z]+$";
+            if (string.IsNullOrEmpty(templateName) ||
+                templateName.Length < 3 ||
+                templateName.Length > 30 ||
+                !Regex.IsMatch(templateName, pattern)) return false;
+            
+            return true;
+        }
 
         public async Task<bool> UpdateTemplate(string email, TemplateDTO templateDTO, string templateName)
         {

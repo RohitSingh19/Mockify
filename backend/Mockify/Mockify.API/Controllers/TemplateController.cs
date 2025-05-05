@@ -28,9 +28,13 @@ namespace Mockify.API.Controllers
         public async Task<IActionResult> SaveTemplate([FromHeader(Name = "Authorization")]string userToken, 
             [FromBody] TemplateDTO templateDTO)
         {
+            if(!_templateService.IsTemplateNameValid(templateDTO.Name)) {
+                BadRequestObjectResult("Invalid template name");
+            }
+
             var userEmail = await GetUserEmail(userToken);            
             if (string.IsNullOrEmpty(userEmail)) {
-                BadRequestObjectResult();
+                BadRequestObjectResult("Invalid Token");
             }
 
             return Ok(new ApiResponse<object>
@@ -48,7 +52,7 @@ namespace Mockify.API.Controllers
             var userEmail = await GetUserEmail(userToken);
             if (string.IsNullOrEmpty(userEmail))
             {
-                BadRequestObjectResult();
+                BadRequestObjectResult("Invalid Token");
             }
 
             return Ok(new ApiResponse<object>
@@ -66,7 +70,7 @@ namespace Mockify.API.Controllers
             var userEmail = await GetUserEmail(userToken);
             if (string.IsNullOrEmpty(userEmail))
             {
-                BadRequestObjectResult();
+                BadRequestObjectResult("Invalid Token");
             }
 
             return Ok(new ApiResponse<object>
@@ -82,10 +86,15 @@ namespace Mockify.API.Controllers
         public async Task<IActionResult> Update([FromBody] TemplateDTO templateDTO,
                 [FromHeader(Name = "Authorization")] string userToken, string templateName)
         {
+
+            if (!_templateService.IsTemplateNameValid(templateDTO.Name)) {
+                BadRequestObjectResult("Invalid template name");
+            }
+
             var userEmail = await GetUserEmail(userToken);
             if (string.IsNullOrEmpty(userEmail))
             {
-                BadRequestObjectResult();
+                BadRequestObjectResult("Invalid Token");
             }
 
             return Ok(new ApiResponse<object>
@@ -113,16 +122,15 @@ namespace Mockify.API.Controllers
             return payload.Email;
         }
         
-        private BadRequestObjectResult BadRequestObjectResult()
+        private BadRequestObjectResult BadRequestObjectResult(string message)
         {
             return BadRequest(new ApiResponse<object>
             {
                 Data = null,
-                Message = "Invalid token",
+                Message = message,
                 StatusCode = 400,
                 Success = false
             });
         }
-
     }
 }

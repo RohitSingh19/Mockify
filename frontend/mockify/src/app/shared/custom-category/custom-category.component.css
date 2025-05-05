@@ -105,8 +105,18 @@
   text-align: center;
 }
 
-.tooltip-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
+
+.template-name-input {
+  width: 100%; /* Make the input field take the full width of its container */
+  padding: 8px; /* Add padding inside the input field */
+  font-size: 14px; /* Set font size */
+  border: 1px solid #ccc; /* Add a light border */
+  border-radius: 4px; /* Add rounded corners */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Add a subtle inner shadow */
+}
+
+.template-name-input:focus {
+  outline: none; /* Remove the default outline */
+  border-color: #3f51b5; /* Change border color on focus (Material primary color) */
+  box-shadow: 0 0 5px rgba(63, 81, 181, 0.5); /* Add a glow effect on focus */
 }

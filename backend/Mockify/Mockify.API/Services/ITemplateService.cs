@@ -9,5 +9,6 @@ namespace Mockify.API.Services
         Task<bool> DeleteTemplate(string email, string templateName);
         Task<bool> UpdateTemplate(string email, TemplateDTO content, string templateName);
         Task<Models.DB.Template> GetTemplate(string email, string templateName);
+        bool IsTemplateNameValid(string templateName);
     }
 }
