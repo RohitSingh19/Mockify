@@ -1,12 +1,12 @@
-import { Component, Inject, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogContent } from '@angular/material/dialog';
 import { MockDataService } from '../../core/services/mock-data.service';
-import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { Category, CustomMockDataRequest, JsonEditorModel, Property } from '../../core/models/category.model';
 import {MatTableModule} from '@angular/material/table';
-import { CommonModule, JsonPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input'
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { MatCardModule } from '@angular/material/card';
@@ -48,15 +48,23 @@ export class CustomCategoryComponent implements OnInit {
   customJsonResponse: any;
   isJsonValid = false;
   showTooltip = false;
-  templateName: string = '';
   isUpdateTemplate = false;
   oldTemplateName: string = '';
-  
+  form: FormGroup;
+
   constructor(public dialogRef: MatDialogRef<CustomCategoryComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
              private mockDataService: MockDataService, private authService: AuthService,
              private clipboard: Clipboard, private snackBar: MatSnackBar, private templateService: TemplateService) 
              {
 
+              this.form = new FormGroup({
+                templateName: new FormControl('', [
+                  Validators.required,
+                  Validators.minLength(3),
+                  Validators.maxLength(30),
+                  Validators.pattern('^[a-zA-Z]+$')
+                ]),
+              });
              }
 
 
@@ -78,7 +86,7 @@ export class CustomCategoryComponent implements OnInit {
         this.intializeJsonEditor();
         if(this.data) {
           this.jsonData = this.data.content;
-          this.templateName = this.data.name;
+          this.form.value['templateName'] = this.data.name;
           this.oldTemplateName = this.data.name;
           this.isUpdateTemplate = true;
         }
@@ -188,14 +196,15 @@ export class CustomCategoryComponent implements OnInit {
     document.body.removeChild(a);
   }
 
-  saveTemplate() {
-    if(this.templateName === '') {  
+  saveTemplate() {    
       //show error message
-      this.snackBar.open("Please enter template name", "Dismiss", {
-        duration: 2000,
-      });
-      return;
-    }
+      if (this.form.invalid) {
+        this.snackBar.open("Invalid template name. Ensure it is 3-30 characters long and contains only alphabets.", "Dismiss", {
+          duration: 4000,
+        });
+        return;
+      }
+    
 
     /*
      This entire logic can be improved by checking if the user is present in local storage then checking the token expiration 
@@ -209,14 +218,14 @@ export class CustomCategoryComponent implements OnInit {
       });
       return;
     }
-
+    const templateName = this.form.value['templateName'];
     const action: Observable<any> = this.isUpdateTemplate ?
-                                    this.templateService.updateTemplate(this.templateName, this.jsonEditorModel, this.oldTemplateName) :
-                                    this.templateService.saveTemplate(this.templateName, this.jsonEditorModel);
+                                    this.templateService.updateTemplate(templateName, this.jsonEditorModel, this.oldTemplateName) :
+                                    this.templateService.saveTemplate(templateName, this.jsonEditorModel);
     
     action.subscribe((data) => {
       if(data.success && data.statusCode === 200) {
-        this.snackBar.open(`${this.templateName} template ${this.isUpdateTemplate ? 'updated' : 'saved'}`, "Dismiss", {
+        this.snackBar.open(`${templateName} template ${this.isUpdateTemplate ? 'updated' : 'saved'}`, "Dismiss", {
           duration: 2000,
         });
       } else {
@@ -225,8 +234,8 @@ export class CustomCategoryComponent implements OnInit {
         });
       }
     }, error  => {
-      if(error && error.error && error.error.message) {
-        this.snackBar.open(error.error.message, "Dismiss", {
+      if(error && error.error && error.error.Message) {
+        this.snackBar.open(error.error.Message, "Dismiss", {
           duration: 2000,
         });
       }

@@ -41,19 +41,31 @@
             <mat-icon aria-hidden="false" title="copy JSON data" (click)="copyToClipboard()"fontIcon="content_copy"></mat-icon>
             <mat-icon aria-hidden="false" title="donwload JSON data" (click)="downloadJson()" fontIcon="download"></mat-icon>
             <mat-icon aria-hidden="false" title="save the template" (click)="showTooltip = !showTooltip" fontIcon="bookmark_add"></mat-icon>
-            <!-- Custom Tooltip -->
-            <div class="custom-tooltip" *ngIf="showTooltip">
-              <mat-card>
-                <mat-card-content>
-                  <input matInput type="text" [(ngModel)]="templateName" placeholder="Template Name" />
-                </mat-card-content>
-                <mat-card-actions class="tooltip-actions">
-                  <button mat-button color="primary" (click)="saveTemplate()">Save</button>
-                  <button mat-button (click)="showTooltip = false">Cancel</button>
-                </mat-card-actions>
-              </mat-card>
-            </div>
-            <!-- End of Custom Tooltip -->
+            <!-- Tooltip For Custom Template Name-->            
+
+            <mat-card class="custom-tooltip" appearance="outlined" *ngIf="showTooltip">
+              <mat-card-header>
+                <mat-card-title style="font-size: large;">Give your template a name</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <form [formGroup]="form">
+                <input matInput type="text" formControlName="templateName"
+                placeholder="Template Name" class="template-name-input" />
+                <div *ngIf="form?.value['templateName']" class="error-messages">
+                  <p *ngIf="form?.value['templateName']?.errors?.['required']">Template name is required.</p>
+                  <p *ngIf="form?.value['templateName']?.errors?.['minlength']">Template name must be at least 3 characters long.</p>
+                  <p *ngIf="form?.value['templateName']?.errors?.['maxlength']">Template name cannot exceed 30 characters.</p>
+                  <p *ngIf="form?.value['templateName']?.errors?.['pattern']">Template name must contain only alphabets with no spaces.</p>
+                </div>
+              </form>
+              </mat-card-content>
+              <mat-card-footer class="example-card-footer">
+                <button mat-button color="primary" (click)="saveTemplate()">Save</button>
+                <button mat-button (click)="showTooltip = false">Cancel</button>                
+              </mat-card-footer>
+            </mat-card>
+
+            <!-- End of Tooltip For Custom Template Name -->
           </div>        
         }
       </div>
