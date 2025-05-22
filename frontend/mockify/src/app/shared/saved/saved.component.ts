@@ -53,10 +53,10 @@ export class SavedComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.loggedInUser$.subscribe((user) => {      
-      this.isUserLoggedIn = !user ? false : true; // Check if user is logged in
-      console.log('Logged in user:', this.loggedInUser);
-    });
+    // this.authService.loggedInUser$.subscribe((user) => {      
+    //   this.isUserLoggedIn = !user ? false : true; // Check if user is logged in
+    //   console.log('Logged in user:', this.loggedInUser);
+    // });
   }
 
   deleteTemplate(template: Template) {
@@ -108,11 +108,17 @@ export class SavedComponent implements OnInit {
     this.authService.sendGoogleTokenToBackend().subscribe({
       next: (user) => {
         if (user) {        
-          this.isUserLoggedIn = true; // Update the login status            
+          this.isUserLoggedIn = true; // Update the login status                      
+          this.authService.loggedInUser$.subscribe(user=> {            
+              this.loggedInUser = user;
+             setTimeout(() => {
+                this.getAllTemplates(); 
+             }, 2000);
+          })
           this.snackBar.open('Welcome, ' + user.name, 'Dismiss', {
             duration: 2000,
           });
-          this.getAllTemplates(); // Refresh the templates after login
+          
         }
       },
       error: (err) => console.error('Error:', err),

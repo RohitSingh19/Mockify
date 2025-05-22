@@ -24,33 +24,30 @@ import { Router } from '@angular/router';
 })
 export class AppComponent{
   title = 'mockify';
-  loggedInUser: User | undefined;
+  loggedInUser: User | undefined | null;
 
   constructor(
     private authService: AuthService,
     private snackBar: MatSnackBar,    
     private router: Router
   ) {
-
-  }
-  ngOnInit() {
     this.authService.loggedInUser$.subscribe((user) => {
       this.loggedInUser = user;
       console.log('Logged in user:', this.loggedInUser);
     });
-    this.checkLoggedInUser();
+  }
+  ngOnInit() {
+    this.loggedInUser = this.authService.getUserFromLocalStorage();
   }
 
   loginWithGoogle() {
     this.authService.sendGoogleTokenToBackend().subscribe({
       next: (user) => {
-        if (user) {
-          this.authService.setLoggedInUser(user);
+        if (user) {          
           this.loggedInUser = user;
           this.snackBar.open('Welcome, ' + this.loggedInUser.name, 'Dismiss', {
             duration: 2000,
           });
-          this.authService.setLoggedInUser(user);
         }
       },
       error: (err) => console.error('Error:', err),
@@ -59,6 +56,13 @@ export class AppComponent{
 
   checkLoggedInUser() {   
     this.loginWithGoogle();
+  }
+
+  updateUser() {
+    this.authService.loggedInUser$.subscribe((user) => {
+      this.loggedInUser = user;
+      console.log('Logged in user:', this.loggedInUser);
+    });
   }
 
   logout() {

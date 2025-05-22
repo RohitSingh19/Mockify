@@ -29,12 +29,12 @@ namespace Mockify.API.Controllers
             [FromBody] TemplateDTO templateDTO)
         {
             if(!_templateService.IsTemplateNameValid(templateDTO.Name)) {
-                BadRequestObjectResult("Invalid template name");
+                return BadRequest(BadRequestObjectResult("Invalid template name. Ensure it is 3-30 characters long and contains only alphabets."));
             }
 
             var userEmail = await GetUserEmail(userToken);            
             if (string.IsNullOrEmpty(userEmail)) {
-                BadRequestObjectResult("Invalid Token");
+                return BadRequest(BadRequestObjectResult("Invalid Token"));
             }
 
             return Ok(new ApiResponse<object>
@@ -52,7 +52,7 @@ namespace Mockify.API.Controllers
             var userEmail = await GetUserEmail(userToken);
             if (string.IsNullOrEmpty(userEmail))
             {
-                BadRequestObjectResult("Invalid Token");
+               return BadRequestObjectResult("Invalid Token");
             }
 
             return Ok(new ApiResponse<object>
@@ -70,7 +70,7 @@ namespace Mockify.API.Controllers
             var userEmail = await GetUserEmail(userToken);
             if (string.IsNullOrEmpty(userEmail))
             {
-                BadRequestObjectResult("Invalid Token");
+                return BadRequest(BadRequestObjectResult("Invalid Token"));
             }
 
             return Ok(new ApiResponse<object>
@@ -88,13 +88,13 @@ namespace Mockify.API.Controllers
         {
 
             if (!_templateService.IsTemplateNameValid(templateDTO.Name)) {
-                BadRequestObjectResult("Invalid template name");
+                return BadRequest(BadRequestObjectResult("Invalid template name"));
             }
 
             var userEmail = await GetUserEmail(userToken);
             if (string.IsNullOrEmpty(userEmail))
             {
-                BadRequestObjectResult("Invalid Token");
+                return BadRequest(BadRequestObjectResult("Invalid Token"));
             }
 
             return Ok(new ApiResponse<object>

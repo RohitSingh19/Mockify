@@ -52,3 +52,17 @@
 .avatar:hover {
     cursor: pointer;
 }
+
+.app-footer {
+  width: 100%;
+  text-align: center;
+  padding: 16px 0;
+  background: #f5f5f5;
+  color: #333;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  font-size: 1rem;
+  box-shadow: 0 -1px 4px rgba(0,0,0,0.04);
+}

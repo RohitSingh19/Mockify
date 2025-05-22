@@ -213,7 +213,7 @@ export class CustomCategoryComponent implements OnInit {
     */
     const user = localStorage.getItem('user');
     if(!user) {
-      this.snackBar.open("Login to save the template", "Dismiss", {
+      this.snackBar.open("Pls login to save the template", "Dismiss", {
         duration: 2000,
       });
       return;
@@ -228,14 +228,10 @@ export class CustomCategoryComponent implements OnInit {
         this.snackBar.open(`${templateName} template ${this.isUpdateTemplate ? 'updated' : 'saved'}`, "Dismiss", {
           duration: 2000,
         });
-      } else {
-        this.snackBar.open('Error in saving template', "Dismiss", {
-          duration: 2000,
-        });
       }
     }, error  => {
-      if(error && error.error && error.error.Message) {
-        this.snackBar.open(error.error.Message, "Dismiss", {
+      if(error && error.error && error.error.value && error.error.value.message) {
+        this.snackBar.open(error.error.value.message, "Dismiss", {
           duration: 2000,
         });
       }
