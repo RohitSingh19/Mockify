@@ -24,10 +24,7 @@ export class AuthService {
           });
     }
     
-    setLoggedInUser(user: User) {
-        this.loggedInUser.next(user);
-    }
-
+    
     sendGoogleTokenToBackend(): Observable<User> {
         return new Observable<User>(observer => {
             const auth2 = gapi.auth2.getAuthInstance();
@@ -36,9 +33,9 @@ export class AuthService {
                 this.httpClient.post<User>(`${environment.apiUrl}auth/google`, { token: idToken }).subscribe(
                     user => {
                         observer.next(user);
-                        observer.complete();
-                        this.setLoggedInUser(user);
+                        this.loggedInUser.next(user);
                         localStorage.setItem('user', JSON.stringify(user));
+                        observer.complete();
                     },
                     err => observer.error(err)
                 );
@@ -63,7 +60,7 @@ export class AuthService {
         const auth2 = gapi.auth2.getAuthInstance();
         auth2.signOut().then(() => {
             this.removeUserFromLocalStorage();
-            this.setLoggedInUser(null!);
+            this.loggedInUser.next(null!);
         });
     }
 }
