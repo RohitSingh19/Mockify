@@ -4,6 +4,8 @@ using Mockify.API.Middlewares;
 using Mockify.API.Models.DB;
 using Mockify.API.Services;
 using StackExchange.Redis;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
+using AspNetCoreRateLimit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,7 +32,35 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.InstanceName = "MockifyRateLimit_";
+});
 
+// Add rate limiting services
+builder.Services.AddMemoryCache(); 
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>(); 
+builder.Services.AddSingleton<IRateLimitCounterStore, DistributedCacheRateLimitCounterStore>();
+builder.Services.AddSingleton<IIpPolicyStore, DistributedCacheIpPolicyStore>(); 
+
+builder.Services.Configure<IpRateLimitOptions>(options => {
+    options.EnableEndpointRateLimiting = true;
+    options.StackBlockedRequests = false;
+    options.HttpStatusCode = 429;
+    options.QuotaExceededMessage = "Too many requests, Try again later.";
+    options.GeneralRules = new List<RateLimitRule>
+    {
+        new RateLimitRule
+        {
+            Endpoint = "*", // All endpoints
+            Period = "1m", // 1-minute window
+            Limit = 20
+        }
+    };
+
+});
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 {
     var configuration = sp.GetService<IConfiguration>();
@@ -61,6 +91,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 var app = builder.Build();
+app.UseIpRateLimiting();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -78,31 +109,5 @@ app.UseCors("MyCorsPolicy");
 
 app.MapControllers();
 app.UseMiddleware<GlobalExceptionHandler>();
-
-
-
-// Test Redis connection
-using (var scope = app.Services.CreateScope())
-{
-    var redis = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
-    try
-    {
-        var db = redis.GetDatabase();
-        // Option 1: Ping Redis
-        var pingResult = db.Ping();
-        Console.WriteLine($"Redis connection successful! Ping time: {pingResult.TotalMilliseconds} ms");
-
-        // Option 2: Set and Get a test key (optional)
-        string testKey = "test-connection";
-        db.StringSet(testKey, "Hello Redis");
-        var value = db.StringGet(testKey);
-        Console.WriteLine($"Redis test value: {value}");
-    }
-    catch (RedisConnectionException ex)
-    {
-        Console.WriteLine($"Redis connection failed: {ex.Message}");
-        throw; // Optionally stop the app if connection is critical
-    }
-}
 
 app.Run();
