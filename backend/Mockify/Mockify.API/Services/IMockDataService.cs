@@ -8,13 +8,14 @@ namespace Mockify.API.Services
     {
         List<User> GetUserMockData(int limit);
         List<Internet> GetInternetMockData(int limit);
-        List<Location> GetLocaltionMockData(int limit);
+        List<Location> GetLocationMockData(int limit);
         List<Lorem> GetLoremMockData(int limit);
         List<Payment> GetPaymentMockData(int limit);
         List<Vehicle> GetVehicleMockData(int limit);
         List<Notification> GetNotificationMockData(int limit);
         List<Randomizer> GetRandomizerMockData(int limit);
         List<FileSystem> GetFileSystemMockData(int limit);
+        List<Image> GetImageMockData(int limit);
         string GenerateCustomMockJson(int limit, CustomCategoryRequestItems customCategoryRequestItems);
 
     }

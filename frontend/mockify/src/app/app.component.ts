@@ -8,7 +8,6 @@ import { User } from './core/models/user.model';
 import { AuthService } from './core/services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -17,7 +16,7 @@ import { Router } from '@angular/router';
     RouterModule,
     MatIconModule,
     MatToolbarModule,
-    MatMenuModule,
+    MatMenuModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',

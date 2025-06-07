@@ -26,7 +26,7 @@ namespace Mockify.API.Services
             return fakeInternet;
         }
 
-        public List<Location> GetLocaltionMockData(int limit)
+        public List<Location> GetLocationMockData(int limit)
         {
             var fakeLocation = new Faker<Location>()
                 .RuleFor(u => u.LocationId, f => f.Random.Number(1,limit))
@@ -140,7 +140,6 @@ namespace Mockify.API.Services
             List<string> requestObj = new();  
             foreach (var item in customCategoryRequestItems.Items)
             {
-                //Type type = ((object)item.CustomValue).GetType(); 
                 var customValue = item.CustomValue;
                 switch (item.FieldName.ToLower())
                 {
@@ -323,5 +322,14 @@ namespace Mockify.API.Services
             };
         }
 
+        public List<Image> GetImageMockData(int limit)
+        {
+            var faker = new Faker<Image>()
+            .RuleFor(i => i.Url, f => f.Image.PicsumUrl())
+            .RuleFor(i => i.Category, f => f.Random.Words())
+            .RuleFor(i => i.Width, f => f.Random.Int(200, 1920))
+            .RuleFor(i => i.Height, f => f.Random.Int(200, 1080));
+            return faker.Generate(limit);
+        }
     }
 }
