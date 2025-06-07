@@ -19,7 +19,7 @@ namespace Mockify.API.Controllers
         }
 
         [HttpGet("user/{limit}")]
-        public IActionResult GetUsersMock(int limit = 100)
+        public IActionResult GetUsersMock(int limit)
         {
             return Ok(new ApiResponse<List<User>>
             {
@@ -31,7 +31,7 @@ namespace Mockify.API.Controllers
         }
 
         [HttpGet("internet/{limit}")]
-        public IActionResult GetInternetMock(int limit = 100)
+        public IActionResult GetInternetMock(int limit)
         {
             return Ok(new ApiResponse<List<Internet>>
             {
@@ -43,11 +43,11 @@ namespace Mockify.API.Controllers
         }
 
         [HttpGet("location/{limit}")]
-        public IActionResult GetLocationMock(int limit = 100)
+        public IActionResult GetLocationMock(int limit)
         {
             return Ok(new ApiResponse<List<Location>>
             {
-                Data = _mockDataService.GetLocaltionMockData(limit),
+                Data = _mockDataService.GetLocationMockData(limit),
                 Message = "Success",
                 StatusCode = 200,
                 Success = true
@@ -55,7 +55,7 @@ namespace Mockify.API.Controllers
         }
 
         [HttpGet("lorem/{limit}")]
-        public IActionResult GetLoremMock(int limit = 100)
+        public IActionResult GetLoremMock(int limit)
         {
             return Ok(new ApiResponse<List<Lorem>>
             {
@@ -67,7 +67,7 @@ namespace Mockify.API.Controllers
         }
 
         [HttpGet("notification/{limit}")]
-        public IActionResult GetNotificationMock(int limit = 100)
+        public IActionResult GetNotificationMock(int limit)
         {
             return Ok(new ApiResponse<List<Notification>>
             {
@@ -80,7 +80,7 @@ namespace Mockify.API.Controllers
         }
 
         [HttpGet("payment/{limit}")]
-        public IActionResult GetPaymentMock(int limit = 100)
+        public IActionResult GetPaymentMock(int limit)
         {
             return Ok(new ApiResponse<List<Payment>>
             {
@@ -92,7 +92,7 @@ namespace Mockify.API.Controllers
         }
         
         [HttpGet("vehicle/{limit}")]
-        public IActionResult GetVehicleMock(int limit = 100)
+        public IActionResult GetVehicleMock(int limit)
         {
             return Ok(new ApiResponse<List<Vehicle>>
             {
@@ -104,7 +104,7 @@ namespace Mockify.API.Controllers
         }
 
         [HttpGet("randomizer/{limit}")]
-        public IActionResult GetRandomizerMock(int limit = 100)
+        public IActionResult GetRandomizerMock(int limit)
         {
             return Ok(new ApiResponse<List<Randomizer>>
             {
@@ -116,7 +116,7 @@ namespace Mockify.API.Controllers
         }
 
         [HttpGet("fileSystem/{limit}")]
-        public IActionResult GetFileSystemMock(int limit = 100)
+        public IActionResult GetFileSystemMock(int limit)
         {
             return Ok(new ApiResponse<List<FileSystem>>
             {
@@ -127,8 +127,20 @@ namespace Mockify.API.Controllers
             });
         }
 
+        [HttpGet("image/{limit}")]
+        public IActionResult GetImageMock(int limit)
+        {
+            return Ok(new ApiResponse<List<Image>>
+            {
+                Data = _mockDataService.GetImageMockData(limit),
+                Message = "Success",
+                StatusCode = 200,
+                Success = true
+            });
+        }
+
         [HttpPost("custom/{limit}")]
-        public IActionResult GetCustomMock([FromBody] CustomCategoryRequestItems customCategoryRequestItems, int limit = 100)
+        public IActionResult GetCustomMock([FromBody] CustomCategoryRequestItems customCategoryRequestItems, int limit)
         {
             return Ok(new ApiResponse<string>
             {

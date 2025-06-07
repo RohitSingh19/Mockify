@@ -13,7 +13,7 @@ namespace Mockify.API.Controllers
     {
         private ICategoryService _categoryService;
         public CategoryController(ICategoryService categoryService) {
-         _categoryService = categoryService;
+            _categoryService = categoryService;
         }
 
         [HttpGet("categories")]
