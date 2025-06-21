@@ -1,6 +1,6 @@
 ﻿namespace Mockify.API.Helper
 {
-    public static class ToDataTypeExtention
+    public static class ToDataTypeExtension
     {
         public static string ToDataType(this string input)
         {

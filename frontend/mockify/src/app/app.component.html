@@ -8,7 +8,7 @@
   <mat-menu #menu="matMenu" class="profile-menu">
     <button mat-menu-item (click)="loginWithGoogle()" *ngIf="!this.loggedInUser">
         <mat-icon>login</mat-icon>
-        <span>Login</span>
+        <span>Login With Google</span>
     </button>
     <button mat-menu-item *ngIf="this.loggedInUser">
         <span>Hello, {{this.loggedInUser?.name}}</span>
@@ -17,10 +17,10 @@
       <mat-icon>save</mat-icon>
       <span>Saved Templates</span>
     </button>
-    <button mat-menu-item routerLink="/documentation">
+    <!-- <button mat-menu-item routerLink="/documentation">
       <mat-icon>description</mat-icon>
       <span>API Documentation</span>
-    </button>
+    </button> -->
     <button mat-menu-item *ngIf="this.loggedInUser" (click)="logout()">       
         <mat-icon>logout</mat-icon>
         <span>Logout</span>

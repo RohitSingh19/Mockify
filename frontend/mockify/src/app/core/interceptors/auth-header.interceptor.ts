@@ -2,7 +2,7 @@ import { HttpEvent, HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angul
 import { Observable } from 'rxjs';
 
 export const authHeaderInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
-  if(req.url.includes('auth/google') || req.url.includes('categories') || req.url.includes('custom')) {
+  if(!req.url.includes('template')) {
     return next(req);
   }
 

@@ -117,6 +117,7 @@ export class CategoryComponent implements OnInit {
     this.categoryIcons['File System'] = 'save';
     this.categoryIcons['Randomizer'] = 'shuffle';
     this.categoryIcons['Custom'] = 'settings';
+    this.categoryIcons['Image'] ='image'
   }
 
   togglePropertyVisibility(property: any): void {

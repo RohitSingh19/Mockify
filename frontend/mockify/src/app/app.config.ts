@@ -6,6 +6,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { NU_MONACO_EDITOR_CONFIG } from '@ng-util/monaco-editor';
 import { authHeaderInterceptor } from './core/interceptors/auth-header.interceptor';
+import { rateLimitInterceptor } from './core/interceptors/rate-limit-interceptor.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [    
